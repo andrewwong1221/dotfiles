@@ -15,7 +15,7 @@ set showcmd
 set showmatch
 set wildmenu
 set wildmode=list,full
-set nowrap
+"set nowrap
 set hidden
 set modeline
 set autoread       " auto-reload modified files (with no local changes)
@@ -28,7 +28,7 @@ set cursorline     " highlight current line
 set scrolloff=4
 set nofoldenable
 
-set background=dark
+" set background=dark
 
 " Keep swap files in one of these 
 set directory=~/tmp,/var/tmp,/tmp,.
@@ -94,8 +94,9 @@ noremap k gk
 if $TERM == "urxvt"
   set t_Co=256
 endif
-" colorscheme shady
 syntax enable
+colors zenburn
+colorscheme zenburn
 
 " Minimum window height = 0
 set wmh=0
