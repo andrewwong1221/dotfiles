@@ -140,4 +140,9 @@ if exists("+showtabline")
   set tabline=%!MyTabLine()
 endif
       
+" Settings for VimClojure
+let g:clj_highlight_builtins=1      " Highlight Clojure's builtins
+let g:clj_paren_rainbow=1           " Rainbow parentheses'!
 
+" Settings for Slimv
+let g:slimv_swank_clojure = '! xterm -e lein swank &' 
