@@ -7,5 +7,5 @@
 *.elc
 auto-save-list
 tramp
-*/.netrwhist
-*/ac-comphist.dat
+*.netrwhist
+*ac-comphist.dat
