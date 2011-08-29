@@ -32,3 +32,5 @@ source $ZSH/oh-my-zsh.sh
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/Users/andrew/local/lein/bin
 
 [[ -s "/Users/andrew/.rvm/scripts/rvm" ]] && source "/Users/andrew/.rvm/scripts/rvm"  # This loads RVM into a shell session.
+
+alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
