@@ -8,6 +8,10 @@ set autoindent
 set smartindent
 set smarttab
 
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+
 " Misc
 set number
 set ruler
