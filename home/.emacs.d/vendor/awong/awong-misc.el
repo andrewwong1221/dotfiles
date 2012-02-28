@@ -3,6 +3,8 @@
 (require 'maxframe)
 (add-hook 'window-setup-hook 'maximize-frame t)
 
+;; Delete key is normal delete
+(normal-erase-is-backspace-mode 1)
 
 
 ;;;

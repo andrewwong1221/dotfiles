@@ -26,6 +26,7 @@ ZSH_THEME="robbyrussell"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git)
 
+
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
@@ -35,3 +36,4 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" #Load RVM
 
 alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+alias myps="ps -U ${1:-$LOGNAME} uxwwf | grep -v \"ps -U ${1:-$LOGNAME} uxwwf\""
