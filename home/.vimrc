@@ -8,6 +8,9 @@ set autoindent
 set smartindent
 set smarttab
 
+" Install pathogen
+call pathogen#infect()
+
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
@@ -32,7 +35,9 @@ set cursorline     " highlight current line
 set scrolloff=4
 set nofoldenable
 
-" set background=dark
+" Theme
+set background=dark
+colorscheme solarized
 
 " Keep swap files in one of these 
 set directory=~/tmp,/var/tmp,/tmp,.
@@ -83,10 +88,10 @@ inoremap <C-f> function () {}<Left>
 set mouse=vin
 
 " Create an empty line underneath without moving the cursor
-noremap <CR> mlo<Esc>`l
+" noremap <CR> mlo<Esc>`l
 
 " Indent with spacebar
-noremap <space> >>
+" noremap <space> >>
 
 " Move easily between ^ and $
 noremap <C-h> ^
@@ -99,50 +104,47 @@ if $TERM == "urxvt"
   set t_Co=256
 endif
 syntax enable
-colors zenburn
-colorscheme zenburn
+" colors zenburn
+" colorscheme zenburn
 
 " Minimum window height = 0
 set wmh=0
 
-function! CleverTab()
-   if strpart( getline('.'), 0, col('.')-1 ) =~ '^\s*$'
-      return "\<Tab>"
-   else
-      return "\<C-N>"
-endfunction
-inoremap <Tab> <C-R>=CleverTab()<CR>
+" function! CleverTab()
+"       return "\<Tab>"
+"    else
+"       return "\<C-N>"
+" endfunction
+" inoremap <Tab> <C-R>=CleverTab()<CR>
 
 "
 " Tabline
 "
-if exists("+showtabline")
-  function! MyTabLine()
-    let s = ''
-    let t = tabpagenr()
-    let i = 1
-
-    while i <= tabpagenr('$')
-      let buflist = tabpagebuflist(i)
-      let winnr = tabpagewinnr(i)
-      let s .= '%' . i . 'T'
-      let s .= (i == t ? '%1*' : '%2*')
-      let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
-      let file = bufname(buflist[winnr - 1])
-      let file = fnamemodify(file, ':p:t')
-      let file = (file == '') ? '[No Name]' : file
-      let s .= ' ' . file . ' '
-      let s .= winnr
-      let s .= (getbufvar(buflist[winnr - 1], '&modified') ? '+ ' : ' ')
-      let i = i + 1
-    endwhile
-    let s .= '%T%#TabLineFill#%='
-    let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
-    return s
-  endfunction
-  set stal=2
-  set tabline=%!MyTabLine()
-endif
+" if exists("+showtabline") function! MyTabLine() let s = ''
+"     let t = tabpagenr()
+"     let i = 1
+" 
+"     while i <= tabpagenr('$')
+"       let buflist = tabpagebuflist(i)
+"       let winnr = tabpagewinnr(i)
+"       let s .= '%' . i . 'T'
+"       let s .= (i == t ? '%1*' : '%2*')
+"       let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
+"       let file = bufname(buflist[winnr - 1])
+"       let file = fnamemodify(file, ':p:t')
+"       let file = (file == '') ? '[No Name]' : file
+"       let s .= ' ' . file . ' '
+"       let s .= winnr
+"       let s .= (getbufvar(buflist[winnr - 1], '&modified') ? '+ ' : ' ')
+"       let i = i + 1
+"     endwhile
+"     let s .= '%T%#TabLineFill#%='
+"     let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
+"     return s
+"   endfunction
+"   set stal=2
+"   set tabline=%!MyTabLine()
+" endif
       
 " Settings for VimClojure
 let vimclojure#HighlightBultins=1      " Highlight Clojure's builtins

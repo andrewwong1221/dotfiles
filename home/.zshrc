@@ -37,3 +37,4 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11
 
 alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 alias myps="ps -U ${1:-$LOGNAME} uxwwf | grep -v \"ps -U ${1:-$LOGNAME} uxwwf\""
+alias tmux="TERM=screen-256color-bce tmux"
