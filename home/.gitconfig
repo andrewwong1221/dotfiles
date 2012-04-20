@@ -18,3 +18,13 @@
     added = yellow
       changed = green
         untracked = cyan
+
+[diff]
+    tool = default-difftool
+
+[difftool]
+    prompt = false
+[difftool "default-difftool"]
+    cmd = $HOME/.default-difftool.sh $LOCAL $REMOTE
+
+
