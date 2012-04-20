@@ -100,9 +100,9 @@ noremap j gj
 noremap k gk
 
 " Syntax coloring
-if $TERM == "urxvt"
-  set t_Co=256
-endif
+" if $TERM == "urxvt"
+set t_Co=256
+" endif
 syntax enable
 " colors zenburn
 " colorscheme zenburn
