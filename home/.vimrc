@@ -1,7 +1,7 @@
 " Tabs and Spaces
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
 set backspace=indent,eol,start
 set expandtab
 set autoindent
@@ -100,9 +100,9 @@ noremap j gj
 noremap k gk
 
 " Syntax coloring
-if $TERM == "urxvt"
-  set t_Co=256
-endif
+" if $TERM == "urxvt"
+set t_Co=256
+" endif
 syntax enable
 " colors zenburn
 " colorscheme zenburn

@@ -29,4 +29,12 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-source ~/.local
+if [ -f ~/.local ]; then
+  source ~/.local
+fi
+
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+        export TERM='xterm-256color'
+else
+        export TERM='xterm-color'
+fi
