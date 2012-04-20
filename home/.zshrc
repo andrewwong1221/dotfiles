@@ -29,12 +29,23 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
+# source $HOME/.bash_local
+
 # Customize to your needs...
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/Users/andrew/local/lein/bin:$PATH
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:/Users/andrew/local/lein/bin:/usr/local/go/bin:/usr/local/MATLAB/R2011a/bin:$PATH
+
+# Enable 256 colors
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+    export TERM='xterm-256color'
+else
+    export TERM='xterm-color'
+fi
+
 
 # This loads RVM into a shell session.
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" #Load RVM
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" #Load RVM
 
 alias lock="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 alias myps="ps -U ${1:-$LOGNAME} uxwwf | grep -v \"ps -U ${1:-$LOGNAME} uxwwf\""
 alias tmux="TERM=screen-256color-bce tmux"
+
