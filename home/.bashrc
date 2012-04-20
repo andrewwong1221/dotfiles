@@ -1,1 +1,3 @@
-. $HOME/.bash_local
+if [ -f ~/.local ]; then
+  . $HOME/.local
+fi
