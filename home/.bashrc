@@ -1,1 +1,1 @@
-. $HOME/.bash_local
+. $HOME/.local

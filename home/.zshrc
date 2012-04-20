@@ -29,4 +29,7 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-source ~/.local
+if [ -f ~/.local ]; then
+  source ~/.local
+fi
+
