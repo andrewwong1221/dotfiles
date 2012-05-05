@@ -76,6 +76,7 @@
 (require 'awong-slime)
 (require 'awong-clojure)
 (require 'awong-org)
+(require 'awong-python)
 
 (global-linum-mode 1)
 (setq inhibit-splash-screen t)
