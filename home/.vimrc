@@ -75,10 +75,10 @@ inoremap kj <Esc>
 " Fix backspace key in xterm
 inoremap  <BS>
 
-inoremap () ()<Left>
-inoremap [] []<Left>
-inoremap '' ''<Left>
-inoremap "" ""<Left>
+" inoremap () ()<Left>
+" inoremap [] []<Left>
+" inoremap '' ''<Left>
+" inoremap "" ""<Left>
 
 inoremap <C-l> <C-x><C-l>
 
