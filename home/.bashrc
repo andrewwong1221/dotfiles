@@ -1,1 +1,3 @@
-. $HOME/.local
+if [ -f ~/.local ]; then
+  . $HOME/.local
+fi
