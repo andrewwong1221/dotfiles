@@ -110,6 +110,9 @@ syntax enable
 " Minimum window height = 0
 set wmh=0
 
+" CtrlP
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
 " function! CleverTab()
 "       return "\<Tab>"
 "    else
