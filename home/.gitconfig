@@ -28,3 +28,5 @@
     cmd = $HOME/.default-difftool.sh $LOCAL $REMOTE
 
 
+[credential]
+	helper = osxkeychain

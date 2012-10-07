@@ -15,13 +15,18 @@ nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
 
+" Set guifont
+if has('gui_running')
+    set guifont=ProggyCleanTTSZBP:h16
+endif
+
 " Misc
 set number
 set ruler
 set showcmd
 set showmatch
 set wildmenu
-set wildmode=list,full
+set wildmode=longest,list,full
 "set nowrap
 set hidden
 set modeline
@@ -34,6 +39,24 @@ set laststatus=2   " always show status-line
 set cursorline     " highlight current line
 set scrolloff=4
 set nofoldenable
+
+" Set Leader Key
+:let mapleader = ","
+
+" Easier buffer switching
+nnoremap <Leader>l :ls<CR>
+nnoremap <Leader>b :bp<CR>
+nnoremap <Leader>f :bn<CR>
+nnoremap <Leader>g :e#<CR>
+nnoremap <Leader>1 :1b<CR>
+nnoremap <Leader>2 :2b<CR>
+nnoremap <Leader>3 :3b<CR>
+nnoremap <Leader>4 :4b<CR>
+nnoremap <Leader>5 :5b<CR>
+nnoremap <Leader>6 :6b<CR>
+nnoremap <Leader>7 :7b<CR>
+nnoremap <Leader>8 :8b<CR>
+nnoremap <Leader>9 :9b<CR>
 
 " Theme
 set background=dark
