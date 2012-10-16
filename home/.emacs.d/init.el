@@ -41,8 +41,8 @@
 (add-subfolders-to-load-path ext-dir)
 
 
-(setenv "PATH" (concat "~/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/sbin:" (getenv "PATH")))
-(setq exec-path (append '("~/bin" "/opt/local/bin" "/opt/local/sbin" "/usr/local/bin" "/sbin" ) exec-path))
+(setenv "PATH" (concat "/Users/andrew/.bin:/Users/Andrew/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/sbin:" (getenv "PATH")))
+(setq exec-path (append '("/Users/andrenw/.bin" "/Users/andrew/bin" "/opt/local/bin" "/opt/local/sbin" "/usr/local/bin" "/sbin" ) exec-path))
 
 ;;; This was installed by package-install.el.
 ;;; This provides support for the package system and
