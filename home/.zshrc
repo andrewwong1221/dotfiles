@@ -39,3 +39,5 @@ if [ -e /usr/share/terminfo/x/xterm-256color ]; then
 else
         export TERM='xterm-color'
 fi
+
+alias tmux="TERM=screen-256color-bce tmux"
