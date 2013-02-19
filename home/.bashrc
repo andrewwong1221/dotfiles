@@ -1,3 +1,3 @@
-if [ -f ~/.local ]; then
-  . $HOME/.local
+if [ -f ~/.localrc ]; then
+  . $HOME/.localrc
 fi

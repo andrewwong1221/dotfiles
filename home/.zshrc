@@ -29,8 +29,8 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-if [ -f ~/.local ]; then
-  source ~/.local
+if [ -f ~/.localrc ]; then
+  source ~/.localrc
 fi
 
 if [ -f ~/.localrc ]; then
@@ -39,6 +39,8 @@ fi
 
 # export CUPS_SERVER=print
 
+export EDITOR='vim'
+
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
         export TERM='xterm-256color'
 else
@@ -46,3 +48,5 @@ else
 fi
 
 alias tmux="TERM=screen-256color-bce tmux"
+alias ip="curl --silent checkip.dyndns.org \
+           | grep --extended-regexp --only-matching '[0-9\.]+'"

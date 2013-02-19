@@ -29,7 +29,7 @@ set showmode
 
 " Set guifont
 if has('gui_running')
-    set guifont=ProggyCleanTTSZBP:h16
+    " set guifont=ProggyCleanTTSZBP:h16
 endif
 
 " Misc
@@ -72,6 +72,17 @@ nnoremap <Leader>7 :b7<CR>
 nnoremap <Leader>8 :b8<CR>
 nnoremap <Leader>9 :b9<CR>
 
+" Better write
+nmap <CR> :write<CR>
+cabbrev w nope
+
+
+" Easier window switching
+noremap <C-H> <C-W>h
+noremap <C-L> <C-W>l
+noremap <C-J> <C-W>j
+noremap <C-K> <C-W>k
+
 " show spaces
 nnoremap <f2> :<C-U>setlocal lcs=tab:>-,trail:~,eol:$,extends:>,precedes:< list! list?<CR>
 
@@ -89,6 +100,7 @@ set statusline=%F\ B:%-10.3n\ %m%r%w%y\ %=(%L\ loc)\ [#\%03.3b\ 0x\%02.2B]\ \ %l
 " Per file-type indentation
 autocmd BufEnter *.js  set softtabstop=4|set shiftwidth=4
 autocmd BufEnter *.c   set softtabstop=4|set shiftwidth=4
+
 
 " Better search
 set hlsearch
