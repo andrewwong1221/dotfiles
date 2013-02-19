@@ -50,3 +50,12 @@ fi
 alias tmux="TERM=screen-256color-bce tmux"
 alias ip="curl --silent checkip.dyndns.org \
            | grep --extended-regexp --only-matching '[0-9\.]+'"
+alias nuke="skill -KILL -u ${USER}"
+
+runon() {
+    if [ "$1" = "niagara1" ]; then
+	ssh $1 "/bin/bash; cd ${PWD}; $2"
+    else
+	ssh $1 "cd ${PWD}; $2"
+    fi
+}

@@ -3,7 +3,8 @@ set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set backspace=indent,eol,start
-set expandtab
+" set expandtab
+set noexpandtab
 set autoindent
 set smartindent
 set smarttab
@@ -54,8 +55,6 @@ set nofoldenable
 
 " Set Leader Key
 let mapleader = ","
-let maplocalleader = ","
-
 
 " Easier buffer switching
 nnoremap <Leader>l :ls<CR>
