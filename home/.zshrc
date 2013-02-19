@@ -32,6 +32,11 @@ source $ZSH/oh-my-zsh.sh
 if [ -f ~/.local ]; then
   source ~/.local
 fi
+
+if [ -f ~/.localrc ]; then
+    source ~/.localrc
+fi
+
 # export CUPS_SERVER=print
 
 if [ -e /usr/share/terminfo/x/xterm-256color ]; then
