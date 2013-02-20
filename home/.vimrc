@@ -73,7 +73,7 @@ nnoremap <Leader>9 :b9<CR>
 
 " Better write
 nmap <CR> :write<CR>
-cabbrev w nope
+" cabbrev w nope
 
 
 " Easier window switching
