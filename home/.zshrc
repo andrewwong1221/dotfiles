@@ -1,6 +1,10 @@
 # Path to your oh-my-zsh configuration.
 export ZSH=$HOME/.oh-my-zsh
 
+# Bind Ctrl-z to fg
+stty susp 
+bindkey -s  'fg'
+
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
@@ -47,7 +51,6 @@ else
         export TERM='xterm-color'
 fi
 
-alias tmux="TERM=screen-256color-bce tmux"
 alias ip="curl --silent checkip.dyndns.org \
            | grep --extended-regexp --only-matching '[0-9\.]+'"
 alias nuke="skill -KILL -u ${USER}"
@@ -59,3 +62,5 @@ runon() {
 	ssh $1 "cd ${PWD}; $2"
     fi
 }
+
+
