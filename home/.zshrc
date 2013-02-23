@@ -37,10 +37,6 @@ if [ -f ~/.localrc ]; then
   source ~/.localrc
 fi
 
-if [ -f ~/.localrc ]; then
-    source ~/.localrc
-fi
-
 # export CUPS_SERVER=print
 
 export EDITOR='vim'
