@@ -20,9 +20,7 @@ call vundle#rc()
 
 " Let Vundle manage Vundle
 Bundle 'gmarik/vundle'
-
 Bundle 'tpope/vim-fugitive'
-Bundle 'VimClojure'
 
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
@@ -204,13 +202,13 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 " Settings for VimClojure
 " Automatically determine indenting using fuzzy matching. e.g. the a line starting "(with-"
 " will be indented two spaces.
-let vimclojure#FuzzyIndent=1
-let vimclojure#HighlightBultins=1      " Highlight Clojure's builtins
-let vimclojure#HighlightContrib=1      " Highlight Contrib functions
-let vimclojure#DynamicHighlighting=1   " Highlight new symbols
-let vimclojure#ParenRainbow=1          " Rainbow parentheses'!
-let vimclojure#WantNailgun=1
-let vimclojure#NailgunClient = "/Users/andrew/.bin/ng"
+" let vimclojure#FuzzyIndent=1
+" let vimclojure#HighlightBultins=1      " Highlight Clojure's builtins
+" let vimclojure#HighlightContrib=1      " Highlight Contrib functions
+" let vimclojure#DynamicHighlighting=1   " Highlight new symbols
+" let vimclojure#ParenRainbow=1          " Rainbow parentheses'!
+" let vimclojure#WantNailgun=1
+" let vimclojure#NailgunClient = "/Users/andrew/.bin/ng"
 
 " Settings for Slimv
-let g:slimv_swank_clojure = '! xterm -e lein swank &' 
+" let g:slimv_swank_clojure = '! xterm -e lein swank &' 
