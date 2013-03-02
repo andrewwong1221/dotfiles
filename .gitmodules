@@ -16,12 +16,15 @@
 [submodule "home/.vim/bundle/vim-easymotion"]
 	path = home/.vim/bundle/vim-easymotion
 	url = git://github.com/Lokaltog/vim-easymotion.git
-[submodule "vim-foreplay"]
+[submodule "home/.vim/bundle/vim-foreplay"]
 	path = home/.vim/bundle/vim-foreplay
 	url = git://github.com/tpope/vim-foreplay.git
-[submodule "vim-classpath"]
+[submodule "home/.vim/bundle/vim-classpath"]
 	path = home/.vim/bundle/vim-classpath
 	url = git://github.com/tpope/vim-classpath.git
-[submodule "vim-clojure-static"]
+[submodule "home/.vim/bundle/vim-clojure-static.git"]
+	path = home/.vim/bundle/vim-clojure-static.git
+	url = git://github.com/guns/vim-clojure-static.git
+[submodule "home/.vim/bundle/vim-clojure-static"]
 	path = home/.vim/bundle/vim-clojure-static
 	url = git://github.com/guns/vim-clojure-static.git
