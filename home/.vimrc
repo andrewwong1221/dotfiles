@@ -15,12 +15,35 @@ call pathogen#infect()
 set nocompatible
 filetype off
 
+" Bootstrap vundle
+if !isdirectory(expand("~/.vim/bundle/vundle"))
+	!mkdir -p ~/.vim/bundle
+	!git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+	let s:bootstrap=1 " indicate that we are installing for the first time
+endif
+
+" Setup vundle
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 " Let Vundle manage Vundle
 Bundle 'gmarik/vundle'
 Bundle 'tpope/vim-fugitive'
+Bundle 'kien/ctrlp.vim'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-classpath'
+Bundle 'guns/vim-clojure-static'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'vim-scripts/paredit.vim'
+Bundle 'Lokaltog/vim-powerline'
+
+" Install bundles if bootstrapping
+if exists("s:bootstrap") && s:bootstrap
+	unlet s:bootstrap
+	BundleInstall
+endif
 
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
@@ -70,7 +93,7 @@ nnoremap <Leader>8 :b8<CR>
 nnoremap <Leader>9 :b9<CR>
 
 " Better write
-nmap <CR> :write<CR>
+" nmap <CR> :write<CR>
 " cabbrev w nope
 
 
