@@ -8,6 +8,7 @@ set noexpandtab
 set autoindent
 set smartindent
 set smarttab
+set encoding=utf-8
 
 " Install pathogen
 call pathogen#infect()
@@ -103,13 +104,19 @@ noremap <C-L> <C-W>l
 noremap <C-J> <C-W>j
 noremap <C-K> <C-W>k
 
-" show spaces
+" show spaces with F2
 nnoremap <f2> :<C-U>setlocal lcs=tab:>-,trail:~,eol:$,extends:>,precedes:< list! list?<CR>
 
 
 " Theme
-set background=dark
+set t_Co=256
+let g:solarized_termcolors=16
 colorscheme solarized
+set background=dark
+
+" Powerline
+let g:Powerline_symbols = 'fancy'
+let g:Powerline_colorscheme='solarized16'
 
 " Keep swap files in one of these 
 set directory=~/tmp,/var/tmp,/tmp,.
@@ -174,7 +181,6 @@ noremap k gk
 
 " Syntax coloring
 " if $TERM == "urxvt"
-set t_Co=256
 " endif
 syntax enable
 " colors zenburn
