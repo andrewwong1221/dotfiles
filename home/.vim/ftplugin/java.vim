@@ -1,6 +1,9 @@
 " JAVA
-inoremap pl<Tab> System.out.println();<C-o>1h
 setl sts=4|set sw=4|set ts=4|set noexpandtab
+
+" Mappings
+inoremap pl<Tab> System.out.println();<C-o>1h
+inoremap p<Tab> System.out.print();<C-o>1h
 
 " F9/F10 compile/run default file.
 " F11/F12 compile/run alternate file.

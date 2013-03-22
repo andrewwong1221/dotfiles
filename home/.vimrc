@@ -155,10 +155,6 @@ inoremap kj <Esc>
 " Fix backspace key in xterm
 inoremap  <BS>
 
-" inoremap () ()<Left>
-" inoremap [] []<Left>
-" inoremap '' ''<Left>
-" inoremap "" ""<Left>
 
 inoremap <C-l> <C-x><C-l>
 
@@ -168,6 +164,7 @@ inoremap <C-f> function () {}<Left>
 set mouse=vin
 
 " Create an empty line underneath without moving the cursor
+" This breaks quickfix
 " noremap <CR> mlo<Esc>`l
 
 " Indent with spacebar
@@ -176,6 +173,7 @@ set mouse=vin
 " Move easily between ^ and $
 noremap <C-h> ^
 noremap <C-l> $
+
 noremap j gj
 noremap k gk
 
@@ -183,61 +181,19 @@ noremap k gk
 " if $TERM == "urxvt"
 " endif
 syntax enable
-" colors zenburn
-" colorscheme zenburn
 
 " Minimum window height = 0
 set wmh=0
 
 " CtrlP
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_cmd = 'call CallCtrlP()'
 
-" function! CleverTab()
-"       return "\<Tab>"
-"    else
-"       return "\<C-N>"
-" endfunction
-" inoremap <Tab> <C-R>=CleverTab()<CR>
-
-"
-" Tabline
-"
-" if exists("+showtabline") function! MyTabLine() let s = ''
-"     let t = tabpagenr()
-"     let i = 1
-" 
-"     while i <= tabpagenr('$')
-"       let buflist = tabpagebuflist(i)
-"       let winnr = tabpagewinnr(i)
-"       let s .= '%' . i . 'T'
-"       let s .= (i == t ? '%1*' : '%2*')
-"       let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
-"       let file = bufname(buflist[winnr - 1])
-"       let file = fnamemodify(file, ':p:t')
-"       let file = (file == '') ? '[No Name]' : file
-"       let s .= ' ' . file . ' '
-"       let s .= winnr
-"       let s .= (getbufvar(buflist[winnr - 1], '&modified') ? '+ ' : ' ')
-"       let i = i + 1
-"     endwhile
-"     let s .= '%T%#TabLineFill#%='
-"     let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
-"     return s
-"   endfunction
-"   set stal=2
-"   set tabline=%!MyTabLine()
-" endif
-      
-" Settings for VimClojure
-" Automatically determine indenting using fuzzy matching. e.g. the a line starting "(with-"
-" will be indented two spaces.
-" let vimclojure#FuzzyIndent=1
-" let vimclojure#HighlightBultins=1      " Highlight Clojure's builtins
-" let vimclojure#HighlightContrib=1      " Highlight Contrib functions
-" let vimclojure#DynamicHighlighting=1   " Highlight new symbols
-" let vimclojure#ParenRainbow=1          " Rainbow parentheses'!
-" let vimclojure#WantNailgun=1
-" let vimclojure#NailgunClient = "/Users/andrew/.bin/ng"
-
-" Settings for Slimv
-" let g:slimv_swank_clojure = '! xterm -e lein swank &' 
+func! CallCtrlP()
+    if exists('s:called_ctrlp')
+        CtrlPLastMode
+    else
+        let s:called_ctrlp = 1
+        CtrlPMRU
+    endif
+endfunc
