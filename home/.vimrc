@@ -138,6 +138,7 @@ set incsearch
 filetype on
 filetype plugin on
 filetype indent on
+au CursorHold * checktime
 
 " Show trailing white-space
 let ruby_space_errors = 1
