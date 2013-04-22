@@ -10,12 +10,6 @@ set smartindent
 set smarttab
 set encoding=utf-8
 
-" Install pathogen
-call pathogen#infect()
-
-set nocompatible
-filetype off
-
 " Bootstrap vundle
 if !isdirectory(expand("~/.vim/bundle/vundle"))
 	!mkdir -p ~/.vim/bundle
@@ -23,12 +17,21 @@ if !isdirectory(expand("~/.vim/bundle/vundle"))
 	let s:bootstrap=1 " indicate that we are installing for the first time
 endif
 
+
+set nocompatible
+filetype off
+
+
 " Setup vundle
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+" Install pathogen
+call pathogen#infect()
+
 " Let Vundle manage Vundle
 Bundle 'gmarik/vundle'
+Bundle 'tpope/vim-pathogen'
 Bundle 'tpope/vim-fugitive'
 Bundle 'kien/ctrlp.vim'
 Bundle 'Lokaltog/vim-easymotion'

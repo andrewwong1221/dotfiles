@@ -4,9 +4,11 @@
 " Last Change:	2007 Apr 02
 
 " Only do this when not done yet for this buffer
-if exists("b:did_ftplugin")
-  finish
-endif
+" if exists("b:did_ftplugin")
+"   finish
+" endif
+" 
+" " Behaves just like C
+" runtime! ftplugin/c.vim ftplugin/c_*.vim ftplugin/c/*.vim
 
-" Behaves just like C
-runtime! ftplugin/c.vim ftplugin/c_*.vim ftplugin/c/*.vim
+au BufNewFile,BufRead *.nc setf nc
