@@ -26,7 +26,3 @@
     prompt = false
 [difftool "default-difftool"]
     cmd = $HOME/.default-difftool.sh $LOCAL $REMOTE
-
-
-[credential]
-	helper = osxkeychain
