@@ -1,10 +1,23 @@
 " Tabs and Spaces
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+" set tabstop=4
+" set shiftwidth=4
+" set softtabstop=4
+
+" FDS settings
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab
+
+" Color Column Settings
+set textwidth=80
+" set colorcolumn to be the textwidth +1-3
+if has("colorcolumn")
+  set colorcolumn=+1,+2,+3
+endif
+
 set backspace=indent,eol,start
-" set expandtab
-set noexpandtab
+" set noexpandtab
 set autoindent
 set smartindent
 set smarttab
@@ -31,6 +44,7 @@ call pathogen#infect()
 
 " Let Vundle manage Vundle
 Bundle 'gmarik/vundle'
+Bundle 'tpope/vim-sensible'
 Bundle 'tpope/vim-pathogen'
 Bundle 'tpope/vim-fugitive'
 Bundle 'kien/ctrlp.vim'
@@ -42,7 +56,10 @@ Bundle 'tpope/vim-fireplace'
 Bundle 'guns/vim-clojure-static'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'vim-scripts/paredit.vim'
-Bundle 'Lokaltog/vim-powerline'
+Bundle 'pangloss/vim-javascript'
+Bundle 'bling/vim-airline'
+Bundle 'scrooloose/syntastic'
+Bundle 'tpope/vim-dispatch'
 
 " Install bundles if bootstrapping
 if exists("s:bootstrap") && s:bootstrap
@@ -78,6 +95,11 @@ set laststatus=2   " always show status-line
 set cursorline     " highlight current line
 set scrolloff=4
 set nofoldenable
+
+" NetRW
+" let g:netrw_preview = 1     " Vertical preview
+let g:netrw_browse_split = 4  " Use the last window to open the file
+let g:netrw_altv = 1          " Split on the right
 
 " Set Leader Key
 let mapleader = ","
@@ -118,9 +140,11 @@ let g:solarized_termcolors=16
 colorscheme solarized
 set background=dark
 
+" Airline
+let g:airline_powerline_fonts = 1
 " Powerline
-let g:Powerline_symbols = 'fancy'
-let g:Powerline_colorscheme='solarized16'
+" let g:Powerline_symbols = 'fancy'
+" let g:Powerline_colorscheme='solarized16'
 
 " Keep swap files in one of these 
 set directory=~/tmp,/var/tmp,/tmp,.
@@ -147,6 +171,7 @@ au CursorHold * checktime
 let ruby_space_errors = 1
 let c_space_errors = 1
 let javascript_space_errors = 1
+let g:syntastic_check_on_open = 1
 
 let c_C99 = 1
 
@@ -158,7 +183,7 @@ endif
 inoremap kj <Esc>
 
 " Fix backspace key in xterm
-inoremap  <BS>
+" inoremap  <BS> " May be breaking ^ inoremap
 
 
 inoremap <C-l> <C-x><C-l>
@@ -166,7 +191,10 @@ inoremap <C-l> <C-x><C-l>
 inoremap <C-f> function () {}<Left>
 
 " Enable mouse in insert and normal mode
-set mouse=vin
+set mouse=a
+
+" Path modification
+set path+=**
 
 " Create an empty line underneath without moving the cursor
 " This breaks quickfix
@@ -202,3 +230,8 @@ func! CallCtrlP()
         CtrlPMRU
     endif
 endfunc
+
+" Local Vimrc
+if filereadable(".vimlocal") 
+  source .vimlocal
+endif
