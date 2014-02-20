@@ -49,6 +49,7 @@ fi
 alias ip="curl --silent checkip.dyndns.org \
            | grep --extended-regexp --only-matching '[0-9\.]+'"
 alias nuke="skill -KILL -u ${USER}"
+alias tmux='TERM=screen-256color-bce tmux'
 
 runon() {
     if [ "$1" = "niagara1" ]; then

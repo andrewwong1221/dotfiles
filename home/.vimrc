@@ -10,7 +10,7 @@ set softtabstop=2
 set expandtab
 
 " Color Column Settings
-set textwidth=80
+" set textwidth=80
 " set colorcolumn to be the textwidth +1-3
 if has("colorcolumn")
   set colorcolumn=+1,+2,+3
@@ -60,6 +60,7 @@ Bundle 'pangloss/vim-javascript'
 Bundle 'bling/vim-airline'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-dispatch'
+Bundle 'kchmck/vim-coffee-script'
 
 " Install bundles if bootstrapping
 if exists("s:bootstrap") && s:bootstrap
@@ -142,6 +143,7 @@ set background=dark
 
 " Airline
 let g:airline_powerline_fonts = 1
+
 " Powerline
 " let g:Powerline_symbols = 'fancy'
 " let g:Powerline_colorscheme='solarized16'
@@ -151,10 +153,6 @@ set directory=~/tmp,/var/tmp,/tmp,.
 
 " Let's see some useful info in the status line
 set statusline=%F\ B:%-10.3n\ %m%r%w%y\ %=(%L\ loc)\ [#\%03.3b\ 0x\%02.2B]\ \ %l,%v\ \ %P
-
-" Per file-type indentation
-autocmd BufEnter *.js  set softtabstop=4|set shiftwidth=4
-autocmd BufEnter *.c   set softtabstop=4|set shiftwidth=4
 
 
 " Better search
@@ -227,7 +225,7 @@ func! CallCtrlP()
         CtrlPLastMode
     else
         let s:called_ctrlp = 1
-        CtrlPMRU
+        CtrlP
     endif
 endfunc
 

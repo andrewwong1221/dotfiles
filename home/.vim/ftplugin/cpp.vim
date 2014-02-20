@@ -1,5 +1,5 @@
 " CXX
-setl sts=2|set sw=2|set ts=2|set expandtab
+setl sts=2|setl sw=2|setl ts=2|setl expandtab
 
 " Mappings
 inoremap pl<Tab> System.out.println();<C-o>1h
