@@ -61,6 +61,10 @@ Bundle 'bling/vim-airline'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-dispatch'
 Bundle 'kchmck/vim-coffee-script'
+Bundle "MarcWeber/vim-addon-mw-utils"
+Bundle "tomtom/tlib_vim"
+Bundle "garbas/vim-snipmate"
+
 
 " Install bundles if bootstrapping
 if exists("s:bootstrap") && s:bootstrap
