@@ -12,8 +12,12 @@ set expandtab
 " Color Column Settings
 " set textwidth=80
 " set colorcolumn to be the textwidth +1-3
-if has("colorcolumn")
-  set colorcolumn=+1,+2,+3
+if exists('+colorcolumn')
+  set colorcolumn=80
+else
+  " au BufWinEnter * let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+  highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+  match OverLength /\%81v.\+/
 endif
 
 set backspace=indent,eol,start
@@ -33,6 +37,9 @@ endif
 
 set nocompatible
 filetype off
+
+" Set spelling options
+set spell spelllang=en_us
 
 
 " Setup vundle
@@ -64,6 +71,8 @@ Bundle 'kchmck/vim-coffee-script'
 Bundle "MarcWeber/vim-addon-mw-utils"
 Bundle "tomtom/tlib_vim"
 Bundle "garbas/vim-snipmate"
+Bundle "honza/vim-snippets"
+Bundle "mattn/emmet-vim"
 
 
 " Install bundles if bootstrapping
@@ -72,6 +81,10 @@ if exists("s:bootstrap") && s:bootstrap
 	BundleInstall
 endif
 
+" Dispatch
+" nnoremap <F9> :Dispatch!<CR>
+
+nnoremap <F3> :call ToggleMouse()<CR>
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
@@ -102,9 +115,15 @@ set scrolloff=4
 set nofoldenable
 
 " NetRW
-" let g:netrw_preview = 1     " Vertical preview
-let g:netrw_browse_split = 4  " Use the last window to open the file
-let g:netrw_altv = 1          " Split on the right
+let g:netrw_preview      = 0   " No vertical preview
+let g:netrw_winsize      = 75  " New netrw window size
+let g:netrw_keepdir      = 0   " Change vim's current directory with netrw
+let g:netrw_browse_split = 4   " Use the last window to open the file
+let g:netrw_altv         = 1   " Split on the right
+let g:netrw_banner       = 0   " No Banner
+let g:netrw_liststyle    = 3   " Tree style listing
+let g:netr_sort_options  = 'i' " Case insensitive sorting
+
 
 " Set Leader Key
 let mapleader = ","
@@ -146,11 +165,8 @@ colorscheme solarized
 set background=dark
 
 " Airline
-let g:airline_powerline_fonts = 1
-
-" Powerline
-" let g:Powerline_symbols = 'fancy'
-" let g:Powerline_colorscheme='solarized16'
+" let g:airline_powerline_fonts=1
+let g:airline#extensions#tabline#enabled = 1
 
 " Keep swap files in one of these 
 set directory=~/tmp,/var/tmp,/tmp,.
@@ -176,6 +192,10 @@ let javascript_space_errors = 1
 let g:syntastic_check_on_open = 1
 
 let c_C99 = 1
+
+" Disable quickfix spellcheck
+autocmd BufReadPost quickfix setlocal nospell
+
 
 if exists("c_no_names")
   unlet c_no_names
@@ -234,6 +254,16 @@ func! CallCtrlP()
 endfunc
 
 " Local Vimrc
-if filereadable(".vimlocal") 
-  source .vimlocal
+if filereadable($HOME . "/.vimlocal") 
+  source $HOME/.vimlocal
 endif
+
+function! ToggleMouse()
+  if &mouse == 'a'
+    set mouse=
+    echo "Mouse Disabled"
+  else
+    set mouse=a
+    echo "Mouse Enabled"
+  endif
+endfunction
