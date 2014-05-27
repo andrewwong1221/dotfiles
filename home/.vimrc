@@ -19,6 +19,10 @@ else
   highlight OverLength ctermbg=red ctermfg=white guibg=#592929
   match OverLength /\%81v.\+/
 endif
+if has('conceal') 
+  set conceallevel=2
+endif
+
 
 set backspace=indent,eol,start
 " set noexpandtab
@@ -64,6 +68,7 @@ Bundle 'guns/vim-clojure-static'
 Bundle 'airblade/vim-gitgutter'
 Bundle 'vim-scripts/paredit.vim'
 Bundle 'pangloss/vim-javascript'
+Bundle 'elzr/vim-json'
 Bundle 'bling/vim-airline'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-dispatch'
