@@ -1,9 +1,4 @@
 " Tabs and Spaces
-" set tabstop=4
-" set shiftwidth=4
-" set softtabstop=4
-
-" FDS settings
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
@@ -31,65 +26,80 @@ set smartindent
 set smarttab
 set encoding=utf-8
 
+
+
 " Bootstrap vundle
-if !isdirectory(expand("~/.vim/bundle/vundle"))
+set nocompatible
+filetype off
+
+if !isdirectory(expand("~/.vim/bundle/Vundle.vim"))
 	!mkdir -p ~/.vim/bundle
-	!git clone git://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+	!git clone git://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 	let s:bootstrap=1 " indicate that we are installing for the first time
 endif
 
+" Install pathogen
+call pathogen#infect()
 
-set nocompatible
-filetype off
+" Setup vundle
+set runtimepath+=~/.vim/bundle/Vundle.vim/
+call vundle#begin()
+
+
+" Let Vundle manage Vundle
+Plugin 'gmarik/Vundle.vim'
+
+" Other plugins
+Plugin 'tpope/vim-sensible'
+Plugin 'tpope/vim-pathogen'
+Plugin 'tpope/vim-fugitive'
+Plugin 'kien/ctrlp.vim'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-classpath'
+Plugin 'tpope/vim-fireplace'
+Plugin 'guns/vim-clojure-static'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'vim-scripts/paredit.vim'
+Plugin 'pangloss/vim-javascript'
+Plugin 'elzr/vim-json'
+Plugin 'bling/vim-airline'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-dispatch'
+Plugin 'kchmck/vim-coffee-script'
+
+Plugin 'MarcWeber/vim-addon-mw-utils'
+Plugin 'tomtom/tlib_vim'
+Plugin 'garbas/vim-snipmate'
+Plugin 'honza/vim-snippets'
+Plugin 'mattn/emmet-vim'
+Plugin 'tpope/vim-vinegar'
+
+" Local Vimrc (which may have plugins
+if filereadable($HOME . "/.vimlocal") 
+  source $HOME/.vimlocal
+endif
+
+
+" All plugins must be added before the following line
+call vundle#end()         " required
+filetype plugin indent on " required
+
+" Install plugins if bootstrapping
+if exists("s:bootstrap") && s:bootstrap
+	unlet s:bootstrap
+	PluginInstall
+endif
 
 " Set spelling options
 set spell spelllang=en_us
 
 
-" Setup vundle
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" Install pathogen
-call pathogen#infect()
-
-" Let Vundle manage Vundle
-Bundle 'gmarik/vundle'
-Bundle 'tpope/vim-sensible'
-Bundle 'tpope/vim-pathogen'
-Bundle 'tpope/vim-fugitive'
-Bundle 'kien/ctrlp.vim'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-classpath'
-Bundle 'tpope/vim-fireplace'
-Bundle 'guns/vim-clojure-static'
-Bundle 'airblade/vim-gitgutter'
-Bundle 'vim-scripts/paredit.vim'
-Bundle 'pangloss/vim-javascript'
-Bundle 'elzr/vim-json'
-Bundle 'bling/vim-airline'
-Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-dispatch'
-Bundle 'kchmck/vim-coffee-script'
-Bundle "MarcWeber/vim-addon-mw-utils"
-Bundle "tomtom/tlib_vim"
-Bundle "garbas/vim-snipmate"
-Bundle "honza/vim-snippets"
-Bundle "mattn/emmet-vim"
-
-
-" Install bundles if bootstrapping
-if exists("s:bootstrap") && s:bootstrap
-	unlet s:bootstrap
-	BundleInstall
-endif
 
 " Dispatch
 " nnoremap <F9> :Dispatch!<CR>
 
-nnoremap <F3> :call ToggleMouse()<CR>
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
@@ -127,7 +137,8 @@ let g:netrw_browse_split = 4   " Use the last window to open the file
 let g:netrw_altv         = 1   " Split on the right
 let g:netrw_banner       = 0   " No Banner
 let g:netrw_liststyle    = 3   " Tree style listing
-let g:netr_sort_options  = 'i' " Case insensitive sorting
+let g:netrw_sort_options = 'i' " Case insensitive sorting
+let g:netrw_localrmdir   = "rm -r"
 
 
 " Set Leader Key
@@ -194,7 +205,10 @@ au CursorHold * checktime
 let ruby_space_errors = 1
 let c_space_errors = 1
 let javascript_space_errors = 1
+
+" Syntastic options
 let g:syntastic_check_on_open = 1
+let g:syntastic_aggregate_errors = 0
 
 let c_C99 = 1
 
@@ -211,6 +225,9 @@ inoremap kj <Esc>
 
 " Fix backspace key in xterm
 " inoremap  <BS> " May be breaking ^ inoremap
+
+" Make <BS><Tab> useful in vim-snipmate
+silent! snoremap <unique> <BS> b<BS>
 
 
 inoremap <C-l> <C-x><C-l>
@@ -258,17 +275,3 @@ func! CallCtrlP()
     endif
 endfunc
 
-" Local Vimrc
-if filereadable($HOME . "/.vimlocal") 
-  source $HOME/.vimlocal
-endif
-
-function! ToggleMouse()
-  if &mouse == 'a'
-    set mouse=
-    echo "Mouse Disabled"
-  else
-    set mouse=a
-    echo "Mouse Enabled"
-  endif
-endfunction
