@@ -68,6 +68,7 @@ Plugin 'bling/vim-airline'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-dispatch'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'mustache/vim-mustache-handlebars'
 
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'tomtom/tlib_vim'
@@ -116,6 +117,11 @@ set showcmd
 set showmatch
 set wildmenu
 set wildmode=longest,list,full
+
+" Also used for ctrlp
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
 "set nowrap
 set hidden
 set modeline
@@ -271,7 +277,32 @@ func! CallCtrlP()
         CtrlPLastMode
     else
         let s:called_ctrlp = 1
-        CtrlP
+        CtrlPMixed
     endif
 endfunc
 
+if executable('ag')
+    " The Silver Searcher
+    " Use ag over grep
+    set grepprg=ag\ --nogroup\ --nocolor
+
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+endif
+
+let gitdir=system("git rev-parse --show-toplevel")
+if empty(gitdir)
+    " not a git repo
+    let gitdir = "."
+else
+    " remove \r\n
+    let gitdir = gitdir[:-2]
+endif
+ 
+let pythoncmd = "python -c 'import os.path; print os.path.relpath(\"" . gitdir . "\")'"
+let relgitdir = system(pythoncmd)[:-2]
+
+" nnoremap <leader>* :lgrep! "\b<C-R><C-W>\b" . relgitdir . <CR>:lopen<CR>
