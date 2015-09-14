@@ -1,8 +1,10 @@
+let g:compiler_gcc_ignore_unmatched_lines=1
 " Tabs and Spaces
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set expandtab
+set cino+=(0
 
 " Color Column Settings
 " set textwidth=80
@@ -69,12 +71,18 @@ NeoBundle 'Shougo/vimproc.vim', {
 NeoBundle 'tpope/vim-sensible'
 NeoBundle 'tpope/vim-pathogen'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-classpath'
 NeoBundle 'tpope/vim-fireplace'
+NeoBundle 'tpope/vim-commentary'
+NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-vinegar'
+NeoBundle 'tpope/vim-markdown'
+
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'junegunn/vim-easy-align'
+NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'vim-scripts/paredit.vim'
@@ -82,6 +90,7 @@ NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'elzr/vim-json'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'mustache/vim-mustache-handlebars'
@@ -91,7 +100,6 @@ NeoBundle 'tomtom/tlib_vim'
 NeoBundle 'garbas/vim-snipmate'
 NeoBundle 'honza/vim-snippets'
 NeoBundle 'mattn/emmet-vim'
-NeoBundle 'tpope/vim-vinegar'
 
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimshell.vim'
@@ -99,7 +107,13 @@ NeoBundle 'Shougo/vimshell.vim'
 
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'godlygeek/tabular'
-NeoBundle 'majutsushi/tagbar'
+" NeoBundle 'majutsushi/tagbar'
+
+NeoBundle 'sotte/presenting.vim'
+NeoBundle 'unblevable/quick-scope'
+NeoBundle 'junegunn/fzf', {'dir': '~/.fzf', 'do': 'yes \| ./install'}
+NeoBundle 'junegunn/fzf.vim'
+
 
 
 " Local Vimrc (which may have plugins
@@ -129,6 +143,12 @@ set spell spelllang=en_us
 nnoremap <F2> :set invpaste paste?<CR>
 set pastetoggle=<F2>
 set showmode
+nnoremap <silent> yo :set paste<cr>o
+nnoremap <silent> yO :set paste<cr>O
+autocmd InsertLeave *
+    \ if &paste == 1 |
+    \     set nopaste |
+    \ endif
 
 " Set guifont
 if has('gui_running')
@@ -201,8 +221,11 @@ noremap <C-L> <C-W>l
 noremap <C-J> <C-W>j
 noremap <C-K> <C-W>k
 
+" Quit all with ZA
+nnoremap ZA :qall<CR>
+
 " show spaces with F2
-nnoremap <f2> :<C-U>setlocal lcs=tab:>-,trail:~,eol:$,extends:>,precedes:< list! list?<CR>
+nnoremap <f2> :<C-U>setlocal lcs=tab:>-,trail:~,eol:$,extends:>,precedes:<,nbsp:+ list! list?<CR>
 
 
 " Theme
@@ -404,10 +427,12 @@ if executable('ag')
     set grepprg=ag\ --nogroup\ --nocolor
 
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 
     " ag is fast enough that CtrlP doesn't need to cache
-    let g:ctrlp_use_caching = 0
+    " let g:ctrlp_use_caching = 0
+
+    let g:ackprg='ag --nogroup --nocolor --column'
 endif
 
 let gitdir=system("git rev-parse --show-toplevel")
@@ -423,6 +448,32 @@ let pythoncmd = "python -c 'import os.path; print os.path.relpath(\"" . gitdir .
 let relgitdir = system(pythoncmd)[:-2]
 
 " Tagbar
-nmap <F8> :TagbarToggle<CR>
+" nmap <F8> :TagbarToggle<CR>
+" let g:tagbar_width=80
+
+" Numbers
+nnoremap <F3> :NumbersToggle<CR>
+nnoremap <F4> :NumbersOnOff<CR>
+
+
+" Nerd Commenter
+let NERDSpaceDelims = 1 
 
 " nnoremap <leader>* :lgrep! "\b<C-R><C-W>\b" . relgitdir . <CR>:lopen<CR>
+
+
+" EasyAlign
+" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+vmap <Enter> <Plug>(EasyAlign)
+"
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
+" End EasyAlign
+
+" Quick Scope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" NeoVim
+if has('nvim')
+  " tnoremap <Esc> <C-\><C-n>
+endif

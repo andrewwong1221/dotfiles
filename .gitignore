@@ -10,3 +10,4 @@ tramp
 .netrwhist
 *ac-comphist.dat
 home/.vim/bundle/*
+home/.vim/spell/*
