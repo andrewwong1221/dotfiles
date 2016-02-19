@@ -9,16 +9,15 @@ inoremap p<Tab> System.out.print();<C-o>1h
 " F11/F12 compile/run alternate file.
 
 " normal, visual and select and operator pending mode
-map <F9> :set makeprg=javac\ %<CR>:make<CR>
-map <F10> :!echo %\|awk -F. '{print $1}'\|xargs java<CR>
-map <F11> :set makeprg=javac\ #<CR>:make<CR>
-map <F12> :!echo #\|awk -F. '{print $1}'\|xargs java<CR>
-
-" command and insert mode
-map! <F9> <Esc>:set makeprg=javac\ %<CR>:make<CR>
-map! <F10> <Esc>:!echo %\|awk -F. '{print $1}'\|xargs java<CR>
-map! <F11> <Esc>set makeprg=javac\ #<CR>:make<CR>
-map! <F12> <Esc>!echo #\|awk -F. '{print $1}'\|xargs java<CR>
+" map <F9> :set makeprg=javac\ %<CR>:make<CR>
+" map <F10> :!echo %\|awk -F. '{print $1}'\|xargs java<CR>
+" map <F11> :set makeprg=javac\ #<CR>:make<CR>
+" map <F12> :!echo #\|awk -F. '{print $1}'\|xargs java<CR>
+" " command and insert mode
+" map! <F9> <Esc>:set makeprg=javac\ %<CR>:make<CR>
+" map! <F10> <Esc>:!echo %\|awk -F. '{print $1}'\|xargs java<CR>
+" map! <F11> <Esc>set makeprg=javac\ #<CR>:make<CR>
+" map! <F12> <Esc>!echo #\|awk -F. '{print $1}'\|xargs java<CR>
 
 " Tip: load a file into the default buffer, and its driver
 " into the alternate buffer, then use F9/F12 to build/run.
@@ -30,6 +29,8 @@ map! <F12> <Esc>!echo #\|awk -F. '{print $1}'\|xargs java<CR>
 
 setl makeprg=javac\ %
 setl errorformat=%A%f:%l:\ %m,%-Z%p^,%-C%.%#
+
+let b:dispatch="javac %"
 
 set path=**
 " If two files are loaded, switch to the alternate file, then back.
