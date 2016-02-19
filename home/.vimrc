@@ -105,6 +105,7 @@ NeoBundle 'mattn/emmet-vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimshell.vim'
 
+NeoBundle 'fatih/vim-go'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'godlygeek/tabular'
 " NeoBundle 'majutsushi/tagbar'
