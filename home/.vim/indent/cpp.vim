@@ -43,6 +43,7 @@ function! GoogleCppIndent()
     "
     " void
     " <-- cindent pos
+    if l:pline =~# '^\s*:' | return l:pline_indent + &shiftwidth | endif
     if l:orig_indent != &shiftwidth | return l:orig_indent | endif
 
     let l:in_comment = 0
@@ -87,7 +88,7 @@ setlocal expandtab
 " setlocal wrap
 
 setlocal cindent
-setlocal cinoptions=h1,l1,g1,i4,+4,(0,w1,W4
+setlocal cinoptions=h1,l1,g1,i6,+4,(0,w1,W4
 
 setlocal indentexpr=GoogleCppIndent()
 
