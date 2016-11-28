@@ -3,3 +3,5 @@ if [ -f ~/.localrc ]; then
 fi
 alias faceroll='cat /dev/urandom'
 
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

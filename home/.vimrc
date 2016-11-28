@@ -83,6 +83,8 @@ NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'junegunn/seoul256.vim'
+
 NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'vim-scripts/paredit.vim'
@@ -114,6 +116,11 @@ NeoBundle 'sotte/presenting.vim'
 NeoBundle 'unblevable/quick-scope'
 NeoBundle 'junegunn/fzf', {'dir': '~/.fzf', 'do': 'yes \| ./install'}
 NeoBundle 'junegunn/fzf.vim'
+
+NeoBundle 'rust-lang/rust.vim'
+
+" React
+NeoBundle 'mxw/vim-jsx'
 
 
 
@@ -232,7 +239,7 @@ nnoremap <f2> :<C-U>setlocal lcs=tab:>-,trail:~,eol:$,extends:>,precedes:<,nbsp:
 " Theme
 set t_Co=256
 let g:solarized_termcolors=16
-colorscheme solarized
+colorscheme seoul256
 set background=dark
 
 " Airline
@@ -478,3 +485,7 @@ let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 if has('nvim')
   " tnoremap <Esc> <C-\><C-n>
 endif
+
+" React
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+

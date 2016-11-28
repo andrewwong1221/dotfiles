@@ -40,25 +40,13 @@ fi
 
 export EDITOR='vim'
 
-if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-        export TERM='xterm-256color'
-else
-        export TERM='xterm-color'
-fi
+# if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+#         export TERM='xterm-256color'
+# else
+#         export TERM='xterm-color'
+# fi
 
 alias ip="curl --silent checkip.dyndns.org \
            | grep --extended-regexp --only-matching '[0-9\.]+'"
-alias nuke="skill -KILL -u ${USER}"
 alias tmux='TERM=screen-256color-bce tmux'
 
-runon() {
-    if [ "$1" = "niagara1" ]; then
-	ssh $1 "/bin/bash; cd ${PWD}; $2"
-    else
-	ssh $1 "cd ${PWD}; $2"
-    fi
-}
-
-
-
-PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
