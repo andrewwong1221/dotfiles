@@ -30,9 +30,9 @@ set nocompatible
 filetype off
 
 if !isdirectory(expand("~/.vim/bundle/neobundle.vim"))
-	!mkdir -p ~/.vim/bundle
-	!git clone git://github.com/Shougo/neobundle.vim.git ~/.vim/bundle/neobundle.vim
-	let s:bootstrap=1 " indicate that we are installing for the first time
+  !mkdir -p ~/.vim/bundle
+  !git clone git://github.com/Shougo/neobundle.vim.git ~/.vim/bundle/neobundle.vim
+  let s:bootstrap=1 " indicate that we are installing for the first time
 endif
 
 " Jump to last position in file
@@ -81,10 +81,7 @@ NeoBundle 'tpope/vim-unimpaired'
 NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'junegunn/vim-easy-align'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'junegunn/seoul256.vim'
 
-NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'guns/vim-clojure-static'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'vim-scripts/paredit.vim'
@@ -122,7 +119,6 @@ NeoBundle 'xolox/vim-misc'
 
 " NeoBundle 'Valloric/YouCompleteMe'
 NeoBundle 'google/vim-searchindex'
-NeoBundle 'takac/vim-hardtime'
 
 NeoBundle 'rust-lang/rust.vim'
 
@@ -130,9 +126,17 @@ NeoBundle 'rust-lang/rust.vim'
 NeoBundle 'mxw/vim-jsx'
 
 NeoBundle 'mbbill/undotree'
+NeoBundle 'osyo-manga/vim-over'
 
+NeoBundle 'sheerun/vim-polyglot'
 
-" Local Vimrc (which may have plugins
+" Colors
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'junegunn/seoul256.vim'
+NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'JarrodCTaylor/vim-256-color-schemes'
+
+" Local Vimrc (which may have plugins)
 if filereadable($HOME . "/.vimlocal")
   source $HOME/.vimlocal
 endif
@@ -140,7 +144,7 @@ endif
 
 " All plugins must be added before the following line
 call neobundle#end()         " required
-filetype plugin indent on " required
+filetype plugin indent on    " required
 
 NeoBundleCheck
 
@@ -228,6 +232,18 @@ nnoremap ZA :qall<CR>
 " show spaces with F2
 nnoremap <f2> :<C-U>setlocal lcs=tab:>-,trail:~,eol:$,extends:>,precedes:<,nbsp:+ list! list?<CR>
 
+" Find and Replace
+nnoremap <Leader>fr :call VisualFindAndReplace()<CR>
+xnoremap <Leader>fr :call VisualFindAndReplaceWithSelection()<CR>
+
+function! VisualFindAndReplace()
+    :OverCommandLine%s/
+    :w
+endfunction
+function! VisualFindAndReplaceWithSelection() range
+    :'<,'>OverCommandLine s/
+    :w
+endfunction
 
 " Theme
 set t_Co=256
@@ -427,7 +443,15 @@ if executable('ag')
     set grepprg=ag\ --nogroup\ --nocolor
 
     " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    if !exists("g:ctrl_p_user_command")
+      let g:ctrlp_user_command = {
+            \ 'types': {
+            \ 1: ['.git', 'cd %s && git ls-files'],
+            \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+            \ },
+            \ 'fallback': 'ag %s --files-with-matches -g ""'
+            \ }
+    endif
 
     " ag is fast enough that CtrlP doesn't need to cache
     let g:ctrlp_use_caching = 0
@@ -504,3 +528,11 @@ if &term =~ '^screen'
   set t_F8=[30~
   set t_F9=[31~
 endif
+
+" normal, visual and select and operator pending mode
+map <F9> :Dispatch<CR>
+
+
+" Set no separator
+set fillchars=""
+hi VertSplit guibg=bg ctermbg=bg ctermfg=bg guifg=bg
