@@ -19,11 +19,6 @@ if has('conceal')
 endif
 
 
-set backspace=indent,eol,start
-set autoindent
-set smartindent
-set smarttab
-
 " Encoding
 set encoding=utf-8
 set fileencoding=utf-8
@@ -31,10 +26,7 @@ set fileencodings=utf-8
 set bomb
 set binary
 
-
-
 " Bootstrap NeoBundle
-set nocompatible
 filetype off
 
 if !isdirectory(expand("~/.config/nvim/bundle/neobundle.vim"))
@@ -48,7 +40,6 @@ endif
 
 " Setup neobundle
 if has('vim_starting')
-  set nocompatible
   set runtimepath+=~/.config/nvim/bundle/neobundle.vim/
   set runtimepath+=~/.config/nvim/bundle/vim-pathogen/
 endif
@@ -74,7 +65,6 @@ NeoBundle 'Shougo/vimproc.vim', {
       \ }
 
 " Essentials
-NeoBundle 'tpope/vim-sensible'  " Sensible defaults
 NeoBundle 'tpope/vim-pathogen'  " Automatic path management
 NeoBundle 'bling/vim-airline'
 NeoBundle 'ctrlpvim/ctrlp.vim'  " Ctrl P
@@ -104,7 +94,7 @@ NeoBundle 'fatih/vim-go'
 NeoBundle 'mxw/vim-jsx' " React
 
 " Fuzzy Finder
-NeoBundle 'junegunn/fzf', {'dir': '~/.fzf', 'do': 'yes \| ./install'}
+NeoBundle 'junegunn/fzf', {'dir': '~/.fzf', 'do': 'yes \| ./install --all'}
 NeoBundle 'junegunn/fzf.vim'
 
 " Other plugins
@@ -179,23 +169,18 @@ set showmatch " Show matching brackets
 
 " Wildmenu setup
 " Also used for ctrlp
-set wildmenu
 set wildmode=longest,list,full
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
 
 set hidden       " unload buffer when hidden
 set modeline     " Enable the modeline
-set autoread     " auto-reload modified files (with no local changes)
 set report=0     " report all changes
-set laststatus=2 " always show status-line
 set cursorline   " highlight current line
 set scrolloff=4  " scroll when the cursor reaches the nth line from the bottom of the window
 set nofoldenable " all folds are opened by default
 
 " Search settings
-set hlsearch
-set incsearch
 set ignorecase   " ignore case in search
 set smartcase    " override ignorecase if uppercase is used in search string
 
@@ -260,7 +245,7 @@ noremap <C-h> ^
 nnoremap ZA :qall<CR>
 
 " show spaces with F2
-nnoremap <f2> :<C-U>setlocal lcs=tab:>-,trail:~,eol:$,extends:>,precedes:<,nbsp:+ list! list?<CR>
+nnoremap <f2> :<C-U>setlocal listchars=tab:>-,trail:~,eol:$,extends:>,precedes:<,nbsp:+ list! list?<CR>
 " Numbers
 nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :NumbersOnOff<CR>
@@ -307,18 +292,14 @@ if exists("c_no_names")
   unlet c_no_names
 endif
 
-" Enable mouse in insert and normal mode
-set mouse=a
-
 " Path modification
 set path+=**
 
 noremap <C-l> $
+nnoremap Q <Nop>
 
 noremap j gj
 noremap k gk
-
-syntax enable
 
 " Minimum window height = 0
 set wmh=0
