@@ -400,8 +400,6 @@ inoremap <C-f> function () {}<Left>
 " Enable mouse in insert and normal mode
 set mouse+=a
 if &term =~ '^screen'
-    " tmux knows the extended mouse mode
-    set ttymouse=xterm2
 endif
 
 " Path modification
@@ -515,6 +513,7 @@ let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
 " Play nice with tmux using screen-256color as default TERM
 if &term =~ '^screen'
+  set ttymouse=xterm2
   " tmux will send xterm-style keys when xterm-keys is on
   execute "set <xUp>=\e[1;*A"
   execute "set <xDown>=\e[1;*B"

@@ -1,23 +1,7 @@
-" Tabs and Spaces
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set expandtab
+" Andrew's Neovim Configuration
+" =============================
 
-
-if has("nvim")
-  let g:basepath="$HOME" . "/.config/nvim/"
-else
-  let g:basepath="$HOME" . "/.vim/"
-endif
-
-" C Indent Google style
-set cino+=(0
-
-if has('conceal') 
-  set conceallevel=2
-endif
-
+" Basics {{{
 
 " Encoding
 set encoding=utf-8
@@ -26,99 +10,180 @@ set fileencodings=utf-8
 set bomb
 set binary
 
-" Bootstrap NeoBundle
-filetype off
+let mapleader = "," " Set Leader Key to , 
 
-if !isdirectory(expand("~/.config/nvim/bundle/neobundle.vim"))
-  echo "Installing NeoBundle..."
-  echo ""
-	silent !mkdir -p ~/.config/nvim/bundle
-	!git clone git://github.com/Shougo/neobundle.vim.git ~/.config/nvim/bundle/neobundle.vim
-	let s:bootstrap=1 " indicate that we are installing for the first time
+
+" Search settings
+set ignorecase   " ignore case in search
+set smartcase    " override ignorecase if uppercase is used in search string
+
+" Reduce timeout
+set timeoutlen=500
+
+" C Indent Google style
+set cino+=(0
+
+
+" Enable live substitution
+if exists('&inccommand')
+  set inccommand=split
 endif
 
+" Tabs and Spaces
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set expandtab " Must be below `set binary`
 
-" Setup neobundle
-if has('vim_starting')
-  set runtimepath+=~/.config/nvim/bundle/neobundle.vim/
-  set runtimepath+=~/.config/nvim/bundle/vim-pathogen/
+" show spaces with F2
+nnoremap <F2> :<C-U>setlocal listchars=tab:→\ ,trail:•,eol:§,extends:⟩,precedes:⟨,nbsp:␣ list! list?<CR>
+
+" Disable swap and backup files
+set nobackup
+set noswapfile
+
+
+" Wildmenu setup
+set wildmode=longest,list,full
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
+
+set hidden       " unload buffer when hidden
+set modeline     " Enable the modeline
+set modelines=5  " Read 5 lines for modeline
+set report=0     " report all changes
+set cursorline   " highlight current line
+set scrolloff=4  " scroll when the cursor reaches the nth line from the bottom of the window
+set nofoldenable " all folds are opened by default
+
+" Visual settings
+set number
+set ruler     " show line ad column number of the cursor position
+set showcmd   " Shows partial command in last line of screen
+set showmatch " Show matching brackets
+
+" Set spelling options
+set spell spelllang=en_us
+" Disable spellcheck in quickfix window
+autocmd BufReadPost quickfix setlocal nospell
+
+
+" Path modification
+set path+=**
+
+" Minimum window height = 0
+set wmh=0
+
+" persistent_undo
+if has("persistent_undo")
+  set undofile
 endif
-" Install pathogen
-call pathogen#infect()
 
-call neobundle#begin(expand('~/.config/nvim/bundle'))
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+" Return to original place in file
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" }}}
 
-" =============
-" BEGIN PLUGINS
-" =============
+" Tmux {{{
+if &term =~ '^screen'
+  set ttymouse=xterm2
+  " tmux will send xterm-style keys when xterm-keys is on
+  execute "set <xUp>=\e[1;*A"
+  execute "set <xDown>=\e[1;*B"
+  execute "set <xRight>=\e[1;*C"
+  execute "set <xLeft>=\e[1;*D"
+  set t_F3=[25~
+  set t_F4=[26~
+  set t_F5=[27~
+  set t_F6=[28~
+  set t_F7=[29~
+  set t_F8=[30~
+  set t_F9=[31~
+endif
+" }}}
 
-" vimproc
-NeoBundle 'Shougo/vimproc.vim', {
-      \ 'build' : {
-      \     'windows' : 'tools\\update-dll-mingw',
-      \     'cygwin' : 'make -f make_cygwin.mak',
-      \     'mac' : 'make -f make_mac.mak',
-      \     'unix' : 'make -f make_unix.mak',
-      \    },
-      \ }
+" Bootsrap vim-plug {{{
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
+
+" }}}
+
+" Plugins {{{
+call plug#begin(expand('~/.config/nvim/plugged'))
+
 
 " Essentials
-NeoBundle 'tpope/vim-pathogen'  " Automatic path management
-NeoBundle 'bling/vim-airline'
-NeoBundle 'ctrlpvim/ctrlp.vim'  " Ctrl P
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'tpope/vim-surround'  " Surround word objects
-NeoBundle 'tpope/vim-commentary' " Comments
-NeoBundle 'tpope/vim-repeat'    " Repeat special commands
-NeoBundle 'tpope/vim-vinegar'   " Better netrw
-NeoBundle 'myusuf3/numbers.vim'
+Plug 'tpope/vim-pathogen'  " Automatic path management
+Plug 'bling/vim-airline'
+" Plug 'ctrlpvim/ctrlp.vim'  " Ctrl P
+Plug 'scrooloose/syntastic'
+Plug 'tpope/vim-surround'  " Surround word objects
+Plug 'tpope/vim-commentary' " Comments
+Plug 'tpope/vim-repeat'    " Repeat special commands
+Plug 'tpope/vim-vinegar'   " Better netrw
+Plug 'myusuf3/numbers.vim'
+Plug 'ntpeters/vim-better-whitespace'  " :StripWhitespace
 
 " VCS
-NeoBundle 'tpope/vim-fugitive'  " Git
-NeoBundle 'airblade/vim-gitgutter' " More git commands
+Plug 'tpope/vim-fugitive'  " Git
+Plug 'airblade/vim-gitgutter' " More git commands
 
 " Languages
-NeoBundle 'tpope/vim-markdown'  " Markdown
-NeoBundle 'rust-lang/rust.vim'
-NeoBundle 'tpope/vim-classpath' " Something java
-NeoBundle 'tpope/vim-fireplace' " Clojure?
-NeoBundle 'guns/vim-clojure-static'
-NeoBundle 'vim-scripts/paredit.vim'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'elzr/vim-json'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'mustache/vim-mustache-handlebars'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'mxw/vim-jsx' " React
+Plug 'plasticboy/vim-markdown'
+Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-classpath' " Something java
+Plug 'tpope/vim-fireplace' " Clojure?
+Plug 'guns/vim-clojure-static'
+Plug 'vim-scripts/paredit.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'elzr/vim-json'
+Plug 'kchmck/vim-coffee-script'
+Plug 'mustache/vim-mustache-handlebars'
+Plug 'fatih/vim-go'
+Plug 'mxw/vim-jsx' " React
+
+" Auto complete
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-clang'
+Plug 'zchee/deoplete-jedi'
 
 " Fuzzy Finder
-NeoBundle 'junegunn/fzf', {'dir': '~/.fzf', 'do': 'yes \| ./install --all'}
-NeoBundle 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': 'yes \| ./install --all'}
+Plug 'junegunn/fzf.vim'
 
 " Other plugins
-NeoBundle 'Lokaltog/vim-easymotion' " Easy motion
-NeoBundle 'junegunn/vim-easy-align' " simple alignment
+Plug 'Lokaltog/vim-easymotion' " Easy motion
+Plug 'junegunn/vim-easy-align' " simple alignment
 
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'scrooloose/nerdcommenter'
+Plug 'mattn/emmet-vim'
+Plug 'scrooloose/nerdcommenter'
 
-NeoBundle 'MarcWeber/vim-addon-mw-utils' " Required by snipmate
-NeoBundle 'tomtom/tlib_vim' " Utilities - Required by snipmate
-NeoBundle 'garbas/vim-snipmate'
-NeoBundle 'honza/vim-snippets'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'unblevable/quick-scope'
+Plug 'MarcWeber/vim-addon-mw-utils' " Required by snipmate
+Plug 'tomtom/tlib_vim' " Utilities - Required by snipmate
+Plug 'garbas/vim-snipmate'
+Plug 'honza/vim-snippets'
+Plug 'godlygeek/tabular'
+Plug 'unblevable/quick-scope'
+
+Plug 'neomake/neomake'
+
+Plug 'vimwiki/vimwiki'
+
+Plug 'rhysd/vim-clang-format'
 
 " Colorschemes
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'junegunn/seoul256.vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'junegunn/seoul256.vim'
 
-" ===========
-" END PLUGINS
-" ===========
 
+" All plugins must be added before the following line
+call plug#end()         " required
+
+"}}}
+
+" Load local configuration files {{{
 " Local Vimrc (which may have plugins
 if filereadable($HOME . "/.vimlocal") 
   source $HOME/.vimlocal
@@ -136,69 +201,31 @@ if filereadable($HOME . "/.config/nvim/nvimrc.local")
   source $HOME/.config/nvim/nvimrc.local
 endif
 
+" }}}
 
-" All plugins must be added before the following line
-call neobundle#end()         " required
-filetype plugin indent on " required
+" Mode Mappings {{{
 
-" Install plugins if bootstrapping
-if exists("s:bootstrap") && s:bootstrap
-	unlet s:bootstrap
-  NeoBundleCheck
-endif
+" Move easily between ^ and $
+noremap <C-h> ^
+noremap <C-l> $
 
-" Set spelling options
-set spell spelllang=en_us
+noremap j gj
+noremap k gk
+
+" Disable Ex mode
+nnoremap Q <Nop>
+
 
 " Paste mode settings
 set showmode
 nnoremap <silent> yo :set paste<cr>o
 nnoremap <silent> yO :set paste<cr>O
-nnoremap <silent> yi :set paste<cr>i
-nnoremap <silent> yI :set paste<cr>I
 autocmd InsertLeave *
     \ if &paste == 1 |
     \     set nopaste |
     \ endif
 
-" Visual settings
-set number
-set ruler     " show line ad column number of the cursor position
-set showcmd   " Shows partial command in last line of screen
-set showmatch " Show matching brackets
-
-" Wildmenu setup
-" Also used for ctrlp
-set wildmode=longest,list,full
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*\\tmp\\*,*.swp,*.zip,*.exe  " Windows
-
-set hidden       " unload buffer when hidden
-set modeline     " Enable the modeline
-set report=0     " report all changes
-set cursorline   " highlight current line
-set scrolloff=4  " scroll when the cursor reaches the nth line from the bottom of the window
-set nofoldenable " all folds are opened by default
-
-" Search settings
-set ignorecase   " ignore case in search
-set smartcase    " override ignorecase if uppercase is used in search string
-
-" NetRW
-let g:netrw_preview      = 0   " No vertical preview
-let g:netrw_winsize      = 75  " New netrw window size
-let g:netrw_keepdir      = 0   " Change vim's current directory with netrw
-let g:netrw_browse_split = 4   " Use the last window to open the file
-let g:netrw_altv         = 1   " Split on the right
-let g:netrw_banner       = 0   " No Banner
-let g:netrw_liststyle    = 3   " Tree style listing
-let g:netrw_sort_options = 'i' " Case insensitive sorting
-let g:netrw_localrmdir   = "rm -r"
-
-
-" Set Leader Key
-let mapleader = ","
-
+"
 " Easier buffer switching
 nnoremap <Leader>l :ls<CR>
 nnoremap <Leader>b :bp<CR>
@@ -229,40 +256,51 @@ cnoreabbrev WQ wq
 cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
+
 " Easy command mode switch
 inoremap kj <Esc>
+" This makes it hard to type fds
+" inoremap fd <Esc>
 
 " Make <BS><Tab> useful in vim-snipmate
 silent! snoremap <unique> <BS> b<BS>
 
 " Auto complete whole line 
-inoremap <C-l> <C-x><C-l>
-
-" Move easily between ^ and $
-noremap <C-h> ^
+imap <C-l> <C-x><C-l>
+imap <C-f> <C-x><C-f>
+inoremap <C-d> <Esc>S
 
 " Quit all with ZA
 nnoremap ZA :qall<CR>
 
-" show spaces with F2
-nnoremap <f2> :<C-U>setlocal listchars=tab:>-,trail:~,eol:$,extends:>,precedes:<,nbsp:+ list! list?<CR>
-" Numbers
+" Numbers 
 nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :NumbersOnOff<CR>
 
+" }}}
 
-" Theme
-set t_Co=256
+" NetRW Settings {{{
+let g:netrw_preview      = 0   " No vertical preview
+let g:netrw_winsize      = 75  " New netrw window size
+let g:netrw_keepdir      = 0   " Change vim's current directory with netrw
+let g:netrw_browse_split = 4   " Use the last window to open the file
+let g:netrw_altv         = 1   " Split on the right
+let g:netrw_banner       = 0   " No Banner
+let g:netrw_liststyle    = 3   " Tree style listing
+let g:netrw_sort_options = 'i' " Case insensitive sorting
+let g:netrw_localrmdir   = "rm -r"
+
+" }}}
+
+" Theme {{{
+" set t_Co=256
 colorscheme seoul256
 set background=dark
 
-" Airline
-" let g:airline_powerline_fonts=1
-let g:airline#extensions#tabline#enabled = 1
+" }}}
 
-" Disable swap and backup files
-set nobackup
-set noswapfile
+" Other {{{
+
 
 " Let's see some useful info in the status line
 set statusline=%F\ B:%-10.3n\ %m%r%w%y\ %=(%L\ loc)\ [#\%03.3b\ 0x\%02.2B]\ \ %l,%v\ \ %P
@@ -272,7 +310,7 @@ set statusline=%F\ B:%-10.3n\ %m%r%w%y\ %=(%L\ loc)\ [#\%03.3b\ 0x\%02.2B]\ \ %l
 filetype on
 filetype plugin on
 filetype indent on
-au CursorHold * checktime
+au CursorHold * checktime " Is this needed, might be for WatchForChanges
 
 " Show trailing white-space
 let ruby_space_errors = 1
@@ -284,121 +322,226 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_aggregate_errors = 0
 let c_C99 = 1
 
-" Disable quickfix spellcheck
-autocmd BufReadPost quickfix setlocal nospell
 
 " Some c settings
 if exists("c_no_names")
   unlet c_no_names
 endif
 
-" Path modification
-set path+=**
+" }}}
 
-noremap <C-l> $
-nnoremap Q <Nop>
+" Plugin Settings {{{
 
-noremap j gj
-noremap k gk
+	" FZF {{{
+  
+  " Mapping selecting mappings
+  noremap <C-p> :Files<CR>
+  nmap <leader><tab> <plug>(fzf-maps-n)
+  xmap <leader><tab> <plug>(fzf-maps-x)
+  omap <leader><tab> <plug>(fzf-maps-o)
 
-" Minimum window height = 0
-set wmh=0
+  " Insert mode completion
+  imap <c-x><c-k> <plug>(fzf-complete-word)
+  imap <c-x><c-f> <plug>(fzf-complete-path)
+  imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+  imap <c-x><c-l> <plug>(fzf-complete-line)
 
-" CtrlP
-set runtimepath^=~/.config/nvim/bundle/ctrlp.vim
-let g:ctrlp_cmd = 'call CallCtrlP()'
+  " Advanced customization using autoload functions
+  inoremap <expr> <c-x><c-k> fzf#vim#complete#word({'left': '15%'})
 
-func! CallCtrlP()
-    if exists('s:called_ctrlp')
-        CtrlPLastMode
-    else
-        let s:called_ctrlp = 1
-        CtrlPMixed
-    endif
-endfunc
+  function! s:fzf_statusline()
+    " Override statusline as you like
+    highlight fzf1 ctermfg=161 ctermbg=251
+    highlight fzf2 ctermfg=23 ctermbg=251
+    highlight fzf3 ctermfg=237 ctermbg=251
+    setlocal statusline=%#fzf1#\ >\ %#fzf2#fz%#fzf3#f
+  endfunction
 
-if executable('ag')
-    " The Silver Searcher
-    " Use ag over grep
-    set grepprg=ag\ --nogroup\ --nocolor
-
-    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
-    " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-
-    " ag is fast enough that CtrlP doesn't need to cache
-    " let g:ctrlp_use_caching = 0
-
-    let g:ackprg='ag --nogroup --nocolor --column'
-endif
-
-let gitdir=system("git rev-parse --show-toplevel")
-if empty(gitdir)
-    " not a git repo
-    let gitdir = "."
-else
-    " remove \r\n
-    let gitdir = gitdir[:-2]
-endif
- 
-let pythoncmd = "python -c 'import os.path; print os.path.relpath(\"" . gitdir . "\")'"
-let relgitdir = system(pythoncmd)[:-2]
+  autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
 
+	" }}}
+
+  " CtrlP {{{
+  "let g:ctrlp_cmd = 'call CallCtrlP()'
+
+  "func! CallCtrlP()
+  "    if exists('s:called_ctrlp')
+  "        CtrlPLastMode
+  "    else
+  "        let s:called_ctrlp = 1
+  "        CtrlPMixed
+  "    endif
+  "endfunc
+
+  " }}}
+
+  if executable('ag')
+      " The Silver Searcher
+      " Use ag over grep
+      set grepprg=ag\ --nogroup\ --nocolor
+
+      " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+      " let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+
+      " ag is fast enough that CtrlP doesn't need to cache
+      " let g:ctrlp_use_caching = 0
+
+      let g:ackprg='ag --nogroup --nocolor --column'
+  endif
+
+  let gitdir=system("git rev-parse --show-toplevel")
+  if empty(gitdir)
+      " not a git repo
+      let gitdir = "."
+  else
+      " remove \r\n
+      let gitdir = gitdir[:-2]
+  endif
+   
+  let pythoncmd = "python -c 'import os.path; print os.path.relpath(\"" . gitdir . "\")'"
+  let relgitdir = system(pythoncmd)[:-2]
 
 
-" Nerd Commenter
-let NERDSpaceDelims = 1 
-
-" nnoremap <leader>* :lgrep! "\b<C-R><C-W>\b" . relgitdir . <CR>:lopen<CR>
 
 
-" EasyAlign
-" Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
-vmap <Enter> <Plug>(EasyAlign)
-"
-" Start interactive EasyAlign for a motion/text object (e.g. gaip)
-nmap ga <Plug>(EasyAlign)
-" End EasyAlign
+  " Nerd Commenter
+  let NERDSpaceDelims = 1 
 
-" Quick Scope
-let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+  " EasyAlign {{{
+  " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
+  vmap <Enter> <Plug>(EasyAlign)
+  "
+  " Start interactive EasyAlign for a motion/text object (e.g. gaip)
+  nmap ga <Plug>(EasyAlign)
+  " End EasyAlign }}}
+
+  " Quick Scope
+  let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 
-" React
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+  " React
+  let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
-" vim-airline magic
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
-endif
+  " vim-airline magic {{{ 
+  " Airline
+  let g:airline_powerline_fonts=1
+  let g:airline#extensions#tabline#enabled=1
 
-if !exists('g:airline_powerline_fonts')
-  let g:airline#extensions#tabline#left_sep = ' '
-  let g:airline#extensions#tabline#left_alt_sep = '|'
-  let g:airline_left_sep          = '▶'
-  let g:airline_left_alt_sep      = '»'
-  let g:airline_right_sep         = '◀'
-  let g:airline_right_alt_sep     = '«'
-  let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
-  let g:airline#extensions#readonly#symbol   = '⊘'
-  let g:airline#extensions#linecolumn#prefix = '¶'
-  let g:airline#extensions#paste#symbol      = 'ρ'
-  let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.paste     = 'ρ'
-  let g:airline_symbols.paste     = 'Þ'
-  let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
-else
-  let g:airline#extensions#tabline#left_sep = ''
-  let g:airline#extensions#tabline#left_alt_sep = ''
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
 
-  " powerline symbols
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
-endif
+  if !exists('g:airline_powerline_fonts')
+    let g:airline#extensions#tabline#left_sep = ' '
+    let g:airline#extensions#tabline#left_alt_sep = '|'
+    let g:airline_left_sep          = '▶'
+    let g:airline_left_alt_sep      = '»'
+    let g:airline_right_sep         = '◀'
+    let g:airline_right_alt_sep     = '«'
+    let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
+    let g:airline#extensions#readonly#symbol   = '⊘'
+    let g:airline#extensions#linecolumn#prefix = '¶'
+    let g:airline#extensions#paste#symbol      = 'ρ'
+    let g:airline_symbols.linenr    = '␊'
+    let g:airline_symbols.branch    = '⎇'
+    let g:airline_symbols.paste     = 'ρ'
+    let g:airline_symbols.paste     = 'Þ'
+    let g:airline_symbols.paste     = '∥'
+    let g:airline_symbols.whitespace = 'Ξ'
+  else
+    let g:airline#extensions#tabline#left_sep = ''
+    let g:airline#extensions#tabline#left_alt_sep = ''
+
+    " powerline symbols
+    let g:airline_left_sep = ''
+    let g:airline_left_alt_sep = ''
+    let g:airline_right_sep = ''
+    let g:airline_right_alt_sep = ''
+    let g:airline_symbols.branch = ''
+    let g:airline_symbols.readonly = ''
+    let g:airline_symbols.linenr = ''
+  endif
+
+  " }}}
+
+  " Terminal settings {{{
+  tnoremap kj <C-\><C-n>
+  tnoremap <Leader><ESC> <C-\><C-n>
+
+  augroup terminal 
+    autocmd TermOpen * setlocal nospell
+  augroup END
+
+  " }}}
+
+  " Neomake {{{
+  let g:neomake_warning_sign = {'text': '⚠', 'texthl': 'NeomakeWarningSign'}
+  let g:neomake_cpp_enabled_makers = ['clangtidy', 'clangcheck']
+  let g:neomake_rakefds_maker = { 
+        \ 'exe': 'rakefds',
+        \ 'args': ['build', '-release', '|', 'sed', '-r', '"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"'],
+        \ 'errorformat': '%f:%l:%c: %m',
+        \ }
+  " let b:dispatch = 'rakefds build -release | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"'
+  let g:neomake_open_list=1 " Show the quickfix window after running NeomakeSh or NeomakeSh!
+  " }}}
+
+  " Neovim Settings
+  " set termguicolors
+  let g:python_host_prog = '/home/user/anwong/.pyenv/versions/2.7.12/bin/python'
+  let g:python3_host_prog = '/home/user/anwong/.pyenv/versions/3.5.2/bin/python3'
+
+  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+
+
+  " Deoplete (autocompletion) {{{
+  " let g:deoplete#enable_at_startup = 1
+  " let g:deoplete#sources#clang#libclang_path='/home/user/anwong/.llvm/lib/libclang.so'
+  " let g:deoplete#sources#clang#clang_header='/home/user/anwong/.llvm/lib/clang/'
+  "       " \ '-IX86_64/el6/include',
+  "       " \ '-I/home/fds/build/include/thrift',
+  "       " \ '-fPIC',
+  "       " \ '-fopenmp',
+  "       " \ '-I/home/fds/build/include',
+  "       " \ '-I/usr/include/freetype2',
+  "       " \ '-I/usr/include/libxml2',
+  "       " \ '-pthread',
+  "       " \ '-include /home/dev/fonix/online/devel/src/first_include.h',
+  "       " \ '-D_GLIBCXX_VISIBILITY=0',
+  "       " \ '-DCRYPTOPP_ENABLE_NAMESPACE_WEAK',
+  "       " \ '-DFDS_USE_SYSTEM_CRYPTOPP',
+  "       " \ '-DFDS_USE_SYSTEM_XERCES',
+  "       " \ '-DFDS_USE_SYSTEM_ZEROMQ',
+  "       " \ '-D__USE_STD_IOSTREAM',
+  "       " \ '-DFONIX_WRAPPING_CXA_THROW',
+  "       " \ '-DFDS_TOOLKIT',
+  "       " \ '-DSINGLE_USER_ONLINE_ONLY',
+  "       " \ '-DFDS_ANSI64',
+  "       " \ '-DFDS_FORTRAN_64',
+  "       " \ '-DFDS_ONLINE',
+  "       " \ '-DFDS_USE_BOOST_1_34',
+  "       " \ '-DNDEBUG',
+  "       " \ '-D_GNU_SOURCE',
+  "       " \ '-D__IEEE_FLOAT',
+  "       " \ '-D__NEW_STARLET',
+  "       " \ '-DFDS_EXPORT_ENABLED',
+  " let g:deoplete#sources#clang#flags = [
+  "       \ '-I/home/dev/fonix/online/devel/src',
+  "       \ '-D', 'FDS_EXPORT',
+  "   \ ]
+
+  " " Python
+  " let g:deoplete#sources#jedi#show_docstring = 1
+  " }}}
+  
+  " Vimwiki {{{j
+  let g:vimwiki_folding='expr'
+  let g:vimwiki_list = [{'path': '~/.vimwiki/vimwiki',
+                      \  'syntax': 'markdown', 'ext': '.md'},
+                      \ {'path': '~/.vimwiki/perfsyswiki',
+                      \  'syntax': 'markdown', 'ext': '.md'}]
+  " }}}
+
+" }}}
+
