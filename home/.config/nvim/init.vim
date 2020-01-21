@@ -10,7 +10,7 @@ set fileencodings=utf-8
 set bomb
 set binary
 
-let mapleader = "," " Set Leader Key to , 
+let mapleader = "," " Set Leader Key to ,
 
 
 " Search settings
@@ -67,6 +67,9 @@ set spell spelllang=en_us
 " Disable spellcheck in quickfix window
 autocmd BufReadPost quickfix setlocal nospell
 
+" Enable mouse
+set mouse=a
+
 
 " Path modification
 set path+=**
@@ -116,15 +119,19 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 
 " Essentials
 Plug 'tpope/vim-pathogen'  " Automatic path management
-Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline'
 " Plug 'ctrlpvim/ctrlp.vim'  " Ctrl P
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-surround'  " Surround word objects
 Plug 'tpope/vim-commentary' " Comments
 Plug 'tpope/vim-repeat'    " Repeat special commands
 Plug 'tpope/vim-vinegar'   " Better netrw
+Plug 'tpope/vim-sleuth'    " Detect whitespace settings
 Plug 'myusuf3/numbers.vim'
 Plug 'ntpeters/vim-better-whitespace'  " :StripWhitespace
+
+"highlighting
+Plug 'luochen1990/rainbow'
 
 " VCS
 Plug 'tpope/vim-fugitive'  " Git
@@ -153,8 +160,12 @@ Plug 'zchee/deoplete-jedi'
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': 'yes \| ./install --all'}
 Plug 'junegunn/fzf.vim'
 
+" Distraction Free writing
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
+
 " Other plugins
-Plug 'Lokaltog/vim-easymotion' " Easy motion
+Plug 'easymotion/vim-easymotion' " Easy motion
 Plug 'junegunn/vim-easy-align' " simple alignment
 
 Plug 'mattn/emmet-vim'
@@ -183,7 +194,7 @@ call plug#end()         " required
 
 "}}}
 
-" Load local configuration files {{{
+" Load Local Configuration Files {{{
 " Local Vimrc (which may have plugins
 if filereadable($HOME . "/.vimlocal") 
   source $HOME/.vimlocal
@@ -469,7 +480,7 @@ endif
   tnoremap kj <C-\><C-n>
   tnoremap <Leader><ESC> <C-\><C-n>
 
-  augroup terminal 
+  augroup terminal
     autocmd TermOpen * setlocal nospell
   augroup END
 
@@ -545,3 +556,36 @@ endif
 
 " }}}
 
+" Turn on wrapping in diff mode
+autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+
+let g:snipMate = { 'override' : 1,
+                 \ 'always_choose_first': 1 }
+
+" Rainbow parens
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+\ 'guifgs': ['royalblue3',   'darkorange3', 'seagreen3', 'firebrick'],
+\ 'ctermfgs': ['lightblue', 'lightyellow', 'darkblue', 'darkred', 'brown', 'lightcyan', 'lightmagenta', 'darkcyan'],
+\ 'operators': '_,_',
+\ 'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+\ 'separately': {
+\   '*': {},
+\   'tex': {
+\     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+\   },
+\   'lisp': {
+\     'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+\   },
+\   'vim': {
+\     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+\   },
+\   'html': {
+\     'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+\   },
+\   'css': 0,
+\   }
+\ }
+
+" Disable vim-go warning
+let g:go_version_warning = 0
