@@ -84,6 +84,10 @@ endif
 
 " Return to original place in file
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" Turn on wrapping in diff mode
+autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+
 " }}}
 
 " Tmux {{{
@@ -545,8 +549,8 @@ endif
   " " Python
   " let g:deoplete#sources#jedi#show_docstring = 1
   " }}}
-  
-  " Vimwiki {{{j
+
+  " Vimwiki {{{
   let g:vimwiki_folding='expr'
   let g:vimwiki_list = [{'path': '~/.vimwiki/vimwiki',
                       \  'syntax': 'markdown', 'ext': '.md'},
@@ -554,38 +558,37 @@ endif
                       \  'syntax': 'markdown', 'ext': '.md'}]
   " }}}
 
+  " Rainbow parens {{{
+  let g:rainbow_active = 1
+  let g:rainbow_conf = {
+  \ 'guifgs': ['royalblue3',   'darkorange3', 'seagreen3', 'firebrick'],
+  \ 'ctermfgs': ['lightblue', 'lightyellow', 'darkblue', 'darkred', 'brown', 'lightcyan', 'lightmagenta', 'darkcyan'],
+  \ 'operators': '_,_',
+  \ 'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+  \ 'separately': {
+  \   '*': {},
+  \   'tex': {
+  \     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+  \   },
+  \   'lisp': {
+  \     'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+  \   },
+  \   'vim': {
+  \     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+  \   },
+  \   'html': {
+  \     'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+  \   },
+  \   'css': 0,
+  \   }
+  \ }
+  " }}}
+
+  " Disable vim-go warning
+  let g:go_version_warning = 0
+
+  let g:snipMate = { 'override' : 1,
+                   \ 'always_choose_first': 1 }
+
+
 " }}}
-
-" Turn on wrapping in diff mode
-autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-
-let g:snipMate = { 'override' : 1,
-                 \ 'always_choose_first': 1 }
-
-" Rainbow parens
-let g:rainbow_active = 1
-let g:rainbow_conf = {
-\ 'guifgs': ['royalblue3',   'darkorange3', 'seagreen3', 'firebrick'],
-\ 'ctermfgs': ['lightblue', 'lightyellow', 'darkblue', 'darkred', 'brown', 'lightcyan', 'lightmagenta', 'darkcyan'],
-\ 'operators': '_,_',
-\ 'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
-\ 'separately': {
-\   '*': {},
-\   'tex': {
-\     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
-\   },
-\   'lisp': {
-\     'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
-\   },
-\   'vim': {
-\     'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
-\   },
-\   'html': {
-\     'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
-\   },
-\   'css': 0,
-\   }
-\ }
-
-" Disable vim-go warning
-let g:go_version_warning = 0
