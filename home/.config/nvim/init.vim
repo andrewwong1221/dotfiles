@@ -107,7 +107,7 @@ if &term =~ '^screen'
   set t_F9=[31~
 endif
 " }}}
-
+"{{{
 " Bootsrap vim-plug {{{
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
@@ -115,7 +115,7 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
-" }}}
+" }}}}}}
 
 " Plugins {{{
 call plug#begin(expand('~/.config/nvim/plugged'))
@@ -124,7 +124,6 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 " Essentials
 Plug 'tpope/vim-pathogen'  " Automatic path management
 Plug 'vim-airline/vim-airline'
-" Plug 'ctrlpvim/ctrlp.vim'  " Ctrl P
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-surround'  " Surround word objects
 Plug 'tpope/vim-commentary' " Comments
@@ -160,6 +159,9 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'zchee/deoplete-clang'
 Plug 'zchee/deoplete-jedi'
 
+" Auto run ctags on save (see ^] for usage)
+Plug 'craigemery/vim-autotag'
+
 " Fuzzy Finder
 Plug 'junegunn/fzf', {'dir': '~/.fzf', 'do': 'yes \| ./install --all'}
 Plug 'junegunn/fzf.vim'
@@ -171,10 +173,12 @@ Plug 'junegunn/limelight.vim'
 " Other plugins
 Plug 'easymotion/vim-easymotion' " Easy motion
 Plug 'junegunn/vim-easy-align' " simple alignment
+" Plug 'justinmk/vim-sneak' " use `s` to sneak forward
 
 Plug 'mattn/emmet-vim'
 Plug 'scrooloose/nerdcommenter'
 
+" Snipmate
 Plug 'MarcWeber/vim-addon-mw-utils' " Required by snipmate
 Plug 'tomtom/tlib_vim' " Utilities - Required by snipmate
 Plug 'garbas/vim-snipmate'
@@ -182,16 +186,20 @@ Plug 'honza/vim-snippets'
 Plug 'godlygeek/tabular'
 Plug 'unblevable/quick-scope'
 
+" Neomake
 Plug 'neomake/neomake'
 
-Plug 'vimwiki/vimwiki'
+Plug 'wellle/context.vim'
 
+Plug 'vimwiki/vimwiki'
 Plug 'rhysd/vim-clang-format'
 
 " Colorschemes
 Plug 'altercation/vim-colors-solarized'
 Plug 'junegunn/seoul256.vim'
 
+" Tagbar
+Plug 'majutsushi/tagbar'
 
 " All plugins must be added before the following line
 call plug#end()         " required
@@ -215,9 +223,8 @@ endif
 if filereadable($HOME . "/.config/nvim/nvimrc.local")
   source $HOME/.config/nvim/nvimrc.local
 endif
-
 " }}}
-
+"
 " Mode Mappings {{{
 
 " Move easily between ^ and $
@@ -256,9 +263,10 @@ nnoremap <Leader>7 :b7<CR>
 nnoremap <Leader>8 :b8<CR>
 nnoremap <Leader>9 :b9<CR>
 
-" Tab to switch tabs
-nnoremap <Tab> gt
-nnoremap <S-Tab> gT
+" Tab to switch tabs (this breaks jumps <C-I>)
+" nnoremap <Tab> gt
+" nnoremap <S-Tab> gT
+
 
 " No one will cry if :W is corrected to :w
 cnoreabbrev W! w!
@@ -292,12 +300,12 @@ nnoremap ZA :qall<CR>
 nnoremap <F3> :NumbersToggle<CR>
 nnoremap <F4> :NumbersOnOff<CR>
 
-" }}}
+" }}}}}}
 
 " NetRW Settings {{{
 let g:netrw_preview      = 0   " No vertical preview
 let g:netrw_winsize      = 75  " New netrw window size
-let g:netrw_keepdir      = 0   " Change vim's current directory with netrw
+let g:netrw_keepdir      = 1   " 1 == Don't change vim's current directory with netrw
 let g:netrw_browse_split = 4   " Use the last window to open the file
 let g:netrw_altv         = 1   " Split on the right
 let g:netrw_banner       = 0   " No Banner
@@ -391,6 +399,7 @@ endif
 
   " }}}
 
+  " Ag settings {{{
   if executable('ag')
       " The Silver Searcher
       " Use ag over grep
@@ -417,7 +426,7 @@ endif
   let pythoncmd = "python -c 'import os.path; print os.path.relpath(\"" . gitdir . "\")'"
   let relgitdir = system(pythoncmd)[:-2]
 
-
+  " End Ag }}}
 
 
   " Nerd Commenter
@@ -432,7 +441,7 @@ endif
   " End EasyAlign }}}
 
   " Quick Scope
-  let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+  " let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
 
 
   " React
@@ -492,14 +501,38 @@ endif
 
   " Neomake {{{
   let g:neomake_warning_sign = {'text': '⚠', 'texthl': 'NeomakeWarningSign'}
-  let g:neomake_cpp_enabled_makers = ['clangtidy', 'clangcheck']
-  let g:neomake_rakefds_maker = { 
+  let g:neomake_rakefds_maker = {
         \ 'exe': 'rakefds',
-        \ 'args': ['build', '-release', '|', 'sed', '-r', '"s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"'],
-        \ 'errorformat': '%f:%l:%c: %m',
+        \ 'args': ['--color=never'],
+        \ 'output_stream': 'both',
+        \ 'append_file': 0,
+        \ 'buffer_output': 0,
         \ }
-  " let b:dispatch = 'rakefds build -release | sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[m|K]//g"'
+        " To always show errors, make the error format '%m'
+        " \ 'errorformat': '%m',
+
   let g:neomake_open_list=1 " Show the quickfix window after running NeomakeSh or NeomakeSh!
+  let g:neomake_enabled_makers = ['rakefds']
+  let g:neomake_cpp_enabled_makers = ['rakefds']
+  nmap <F5> :Neomake!<CR>
+  nmap <F6> :NeomakeSh! rakefds --color=never<CR>
+
+
+  function! NeomakeShowJobStatusOnFinished() abort
+    let context = g:neomake_hook_context
+    if context.jobinfo.exit_code == 0
+      echom printf('The job for maker %s exited successfully',
+            \ context.jobinfo.maker.name)
+    elseif context.jobinfo.exit_code != 0
+      echom printf('The job for maker %s exited non-zero: %s',
+            \ context.jobinfo.maker.name, context.jobinfo.exit_code)
+    endif
+  endfunction
+  augroup my_neomake_hooks
+    au!
+    autocmd User NeomakeJobFinished call NeomakeShowJobStatusOnFinished()
+  augroup END
+
   " }}}
 
   " Neovim Settings
@@ -584,11 +617,27 @@ endif
   \ }
   " }}}
 
-  " Disable vim-go warning
-  let g:go_version_warning = 0
-
   let g:snipMate = { 'override' : 1,
                    \ 'always_choose_first': 1 }
+
+  " Remap f and s to use vim-sneak
+  " map f <Plug>Sneak_f
+  " map F <Plug>Sneak_F
+  " map t <Plug>Sneak_t
+  " map T <Plug>Sneak_T
+
+  " Context
+  nmap <F7> :ContextToggle<CR>
+  let g:context_enabled = 0
+
+  " Tagbar
+  nmap <F8> :TagbarToggle<CR>
+
+  nmap <F9> :copen<CR>
+  nmap <F12> :vsplit $MYVIMRC<CR>
+
+
+
 
 
 " }}}
