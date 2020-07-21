@@ -35,9 +35,6 @@ set shiftwidth=2
 set softtabstop=2
 set expandtab " Must be below `set binary`
 
-" show spaces with F2
-nnoremap <F2> :<C-U>setlocal listchars=tab:→\ ,trail:•,eol:§,extends:⟩,precedes:⟨,nbsp:␣ list! list?<CR>
-
 " Disable swap and backup files
 set nobackup
 set noswapfile
@@ -119,15 +116,15 @@ if &term =~ '^screen'
   set t_F9=[31~
 endif
 " }}}
-"{{{
-" Bootsrap vim-plug {{{
+
+" Bootstrap vim-plug {{{
 if empty(glob('~/.config/nvim/autoload/plug.vim'))
   silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
-" }}}}}}
+" }}}
 
 " Plugins {{{
 call plug#begin(expand('~/.config/nvim/plugged'))
@@ -136,7 +133,6 @@ call plug#begin(expand('~/.config/nvim/plugged'))
 " Essentials
 Plug 'tpope/vim-pathogen'  " Automatic path management
 Plug 'vim-airline/vim-airline'
-Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-surround'  " Surround word objects
 Plug 'tpope/vim-commentary' " Comments
 Plug 'tpope/vim-repeat'    " Repeat special commands
@@ -145,7 +141,7 @@ Plug 'tpope/vim-sleuth'    " Detect whitespace settings
 Plug 'myusuf3/numbers.vim'
 Plug 'ntpeters/vim-better-whitespace'  " :StripWhitespace
 
-"highlighting
+" highlighting
 Plug 'luochen1990/rainbow'
 
 " VCS
@@ -166,11 +162,6 @@ Plug 'mustache/vim-mustache-handlebars'
 Plug 'fatih/vim-go'
 Plug 'mxw/vim-jsx' " React
 
-" Auto complete
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'zchee/deoplete-clang'
-Plug 'zchee/deoplete-jedi'
-
 " Auto run ctags on save (see ^] for usage)
 Plug 'craigemery/vim-autotag'
 
@@ -185,7 +176,6 @@ Plug 'junegunn/limelight.vim'
 " Other plugins
 Plug 'easymotion/vim-easymotion' " Easy motion
 Plug 'junegunn/vim-easy-align' " simple alignment
-" Plug 'justinmk/vim-sneak' " use `s` to sneak forward
 
 Plug 'mattn/emmet-vim'
 Plug 'scrooloose/nerdcommenter'
@@ -206,7 +196,7 @@ Plug 'neomake/neomake'
 " Plug 'wellle/context.vim'
 
 Plug 'vimwiki/vimwiki'
-Plug 'rhysd/vim-clang-format'
+" Plug 'rhysd/vim-clang-format'
 
 " Colorschemes
 Plug 'altercation/vim-colors-solarized'
@@ -217,10 +207,8 @@ Plug 'majutsushi/tagbar'
 
 " coc.nvim
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'jackguo380/vim-lsp-cxx-highlight'
 " :CocInstall coc-snippets
-
-" vimspector - a debugger
-" Plug 'puremourning/vimspector'
 
 " All plugins must be added before the following line
 call plug#end()         " required
@@ -229,7 +217,7 @@ call plug#end()         " required
 
 " Load Local Configuration Files {{{
 " Local Vimrc (which may have plugins
-if filereadable($HOME . "/.vimlocal") 
+if filereadable($HOME . "/.vimlocal")
   source $HOME/.vimlocal
 endif
 
@@ -245,8 +233,8 @@ if filereadable($HOME . "/.config/nvim/nvimrc.local")
   source $HOME/.config/nvim/nvimrc.local
 endif
 " }}}
-"
-" Mode Mappings {{{
+
+" Key Mappings {{{
 
 " Move easily between ^ and $
 noremap <C-h> ^
@@ -257,7 +245,6 @@ noremap k gk
 
 " Disable Ex mode
 nnoremap Q <Nop>
-
 
 " Paste mode settings
 set showmode
@@ -284,10 +271,6 @@ nnoremap <Leader>7 :b7<CR>
 nnoremap <Leader>8 :b8<CR>
 nnoremap <Leader>9 :b9<CR>
 
-" Tab to switch tabs (this breaks jumps <C-I>)
-" nnoremap <Tab> gt
-" nnoremap <S-Tab> gT
-
 
 " No one will cry if :W is corrected to :w
 cnoreabbrev W! w!
@@ -303,13 +286,11 @@ cnoreabbrev Qall qall
 
 " Easy command mode switch
 inoremap kj <Esc>
-" This makes it hard to type fds
-" inoremap fd <Esc>
 
 " Make <BS><Tab> useful in vim-snipmate
 " silent! snoremap <unique> <BS> b<BS>
 
-" Auto complete whole line 
+" Auto complete whole line
 imap <C-l> <C-x><C-l>
 imap <C-f> <C-x><C-f>
 inoremap <C-d> <Esc>S
@@ -317,11 +298,25 @@ inoremap <C-d> <Esc>S
 " Quit all with ZA
 nnoremap ZA :qall<CR>
 
-" Numbers 
-nnoremap <F3> :NumbersToggle<CR>
-nnoremap <F4> :NumbersOnOff<CR>
+  " Function Keys  {{{
+  
+  " show spaces with F2
+  nnoremap <F2> :<C-U>setlocal listchars=tab:→\ ,trail:•,eol:§,extends:⟩,precedes:⟨,nbsp:␣ list! list?<CR>
+  nnoremap <F3> :NumbersToggle<CR>
+  nnoremap <F4> :NumbersOnOff<CR>
 
-" }}}}}}
+  nnoremap <F5> :Neomake!<CR>
+  nnoremap <F6> :NeomakeSh! rakefds --color=never<CR>
+  nnoremap <F7> :ContextToggle<CR>
+  nnoremap <F8> :TagbarToggle<CR>
+
+  nnoremap <F9> :copen<CR>
+  nnoremap <F12> :vsplit $MYVIMRC<CR>
+
+
+  " }}}
+
+" }}}
 
 " NetRW Settings {{{
 let g:netrw_preview      = 0   " No vertical preview
@@ -362,8 +357,8 @@ let c_space_errors = 1
 let javascript_space_errors = 1
 
 " Syntastic options
-let g:syntastic_check_on_open = 1
-let g:syntastic_aggregate_errors = 0
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_aggregate_errors = 0
 let c_C99 = 1
 
 
@@ -376,8 +371,8 @@ endif
 
 " Plugin Settings {{{
 
-	" FZF {{{
-  
+  " FZF {{{
+
   " Mapping selecting mappings
   noremap <C-p> :Files<CR>
   nmap <leader><tab> <plug>(fzf-maps-n)
@@ -404,20 +399,6 @@ endif
   autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
 
-	" }}}
-
-  " CtrlP {{{
-  "let g:ctrlp_cmd = 'call CallCtrlP()'
-
-  "func! CallCtrlP()
-  "    if exists('s:called_ctrlp')
-  "        CtrlPLastMode
-  "    else
-  "        let s:called_ctrlp = 1
-  "        CtrlPMixed
-  "    endif
-  "endfunc
-
   " }}}
 
   " Ag settings {{{
@@ -443,7 +424,7 @@ endif
       " remove \r\n
       let gitdir = gitdir[:-2]
   endif
-   
+
   let pythoncmd = "python -c 'import os.path; print os.path.relpath(\"" . gitdir . "\")'"
   let relgitdir = system(pythoncmd)[:-2]
 
@@ -451,7 +432,7 @@ endif
 
 
   " Nerd Commenter
-  let NERDSpaceDelims = 1 
+  let NERDSpaceDelims = 1
 
   " EasyAlign {{{
   " Start interactive EasyAlign in visual mode (e.g. vip<Enter>)
@@ -461,14 +442,11 @@ endif
   nmap ga <Plug>(EasyAlign)
   " End EasyAlign }}}
 
-  " Quick Scope
-  " let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
-
 
   " React
   let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 
-  " vim-airline magic {{{ 
+  " vim-airline magic {{{
   " Airline
   let g:airline_powerline_fonts=1
   let g:airline#extensions#tabline#enabled=1
@@ -535,8 +513,6 @@ endif
   let g:neomake_open_list=1 " Show the quickfix window after running NeomakeSh or NeomakeSh!
   let g:neomake_enabled_makers = ['rakefds']
   let g:neomake_cpp_enabled_makers = ['rakefds']
-  nmap <F5> :Neomake!<CR>
-  nmap <F6> :NeomakeSh! rakefds --color=never<CR>
 
 
   function! NeomakeShowJobStatusOnFinished() abort
@@ -554,54 +530,6 @@ endif
     autocmd User NeomakeJobFinished call NeomakeShowJobStatusOnFinished()
   augroup END
 
-  " }}}
-
-  " Neovim Settings
-  " set termguicolors
-  let g:python_host_prog = '/home/user/anwong/.pyenv/versions/2.7.12/bin/python'
-  let g:python3_host_prog = '/home/user/anwong/.pyenv/versions/3.5.2/bin/python3'
-
-  let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
-
-
-  " Deoplete (autocompletion) {{{
-  " let g:deoplete#enable_at_startup = 1
-  " let g:deoplete#sources#clang#libclang_path='/home/user/anwong/.llvm/lib/libclang.so'
-  " let g:deoplete#sources#clang#clang_header='/home/user/anwong/.llvm/lib/clang/'
-  "       " \ '-IX86_64/el6/include',
-  "       " \ '-I/home/fds/build/include/thrift',
-  "       " \ '-fPIC',
-  "       " \ '-fopenmp',
-  "       " \ '-I/home/fds/build/include',
-  "       " \ '-I/usr/include/freetype2',
-  "       " \ '-I/usr/include/libxml2',
-  "       " \ '-pthread',
-  "       " \ '-include /home/dev/fonix/online/devel/src/first_include.h',
-  "       " \ '-D_GLIBCXX_VISIBILITY=0',
-  "       " \ '-DCRYPTOPP_ENABLE_NAMESPACE_WEAK',
-  "       " \ '-DFDS_USE_SYSTEM_CRYPTOPP',
-  "       " \ '-DFDS_USE_SYSTEM_XERCES',
-  "       " \ '-DFDS_USE_SYSTEM_ZEROMQ',
-  "       " \ '-D__USE_STD_IOSTREAM',
-  "       " \ '-DFONIX_WRAPPING_CXA_THROW',
-  "       " \ '-DFDS_TOOLKIT',
-  "       " \ '-DSINGLE_USER_ONLINE_ONLY',
-  "       " \ '-DFDS_ANSI64',
-  "       " \ '-DFDS_FORTRAN_64',
-  "       " \ '-DFDS_ONLINE',
-  "       " \ '-DFDS_USE_BOOST_1_34',
-  "       " \ '-DNDEBUG',
-  "       " \ '-D_GNU_SOURCE',
-  "       " \ '-D__IEEE_FLOAT',
-  "       " \ '-D__NEW_STARLET',
-  "       " \ '-DFDS_EXPORT_ENABLED',
-  " let g:deoplete#sources#clang#flags = [
-  "       \ '-I/home/dev/fonix/online/devel/src',
-  "       \ '-D', 'FDS_EXPORT',
-  "   \ ]
-
-  " " Python
-  " let g:deoplete#sources#jedi#show_docstring = 1
   " }}}
 
   " Vimwiki {{{
@@ -638,24 +566,9 @@ endif
   \ }
   " }}}
 
-  " let g:snipMate = { 'override' : 1,
-  "                  \ 'always_choose_first': 1 }
-
-  " Remap f and s to use vim-sneak
-  " map f <Plug>Sneak_f
-  " map F <Plug>Sneak_F
-  " map t <Plug>Sneak_t
-  " map T <Plug>Sneak_T
-
-  " Context
-  nmap <F7> :ContextToggle<CR>
+  " Context Plugin {{{
   let g:context_enabled = 0
-
-  " Tagbar
-  nmap <F8> :TagbarToggle<CR>
-
-  nmap <F9> :copen<CR>
-  nmap <F12> :vsplit $MYVIMRC<CR>
+  " }}}
 
 
   " coc.nvim {{{
@@ -717,8 +630,8 @@ endif
   nmap <leader>rn <Plug>(coc-rename)
 
   " Formatting selected code.
-  xmap <leader>f  <Plug>(coc-format-selected)
-  nmap <leader>f  <Plug>(coc-format-selected)
+  xmap <leader>cf  <Plug>(coc-format-selected)
+  nmap <leader>cf  <Plug>(coc-format-selected)
 
   augroup mygroup
     autocmd!
@@ -785,10 +698,14 @@ endif
 
   " }}}
 
-
   " vimspector {{{
-  " let g:vimspector_enable_mappings = 'HUMAN'
+  let g:vimspector_enable_mappings = 'HUMAN'
   " }}}
 
+  " Disable autotag on xml files
+  let g:autotagExcludeFiletypes="xml"
+
+  " Disable json conceal
+  let g:vim_json_syntax_conceal = 0
 
 " }}}
