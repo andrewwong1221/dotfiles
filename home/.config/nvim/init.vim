@@ -284,6 +284,9 @@ cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
 
+" split to the right
+set splitright
+
 " Easy command mode switch
 inoremap kj <Esc>
 
@@ -306,7 +309,7 @@ nnoremap ZA :qall<CR>
   nnoremap <F4> :NumbersOnOff<CR>
 
   nnoremap <F5> :Neomake!<CR>
-  nnoremap <F6> :NeomakeSh! rakefds --color=never<CR>
+  " nnoremap <F6> :NeomakeSh! rakefds --color=never<CR> (see .vimlocal)
   nnoremap <F7> :ContextToggle<CR>
   nnoremap <F8> :TagbarToggle<CR>
 
@@ -500,19 +503,10 @@ endif
 
   " Neomake {{{
   let g:neomake_warning_sign = {'text': '⚠', 'texthl': 'NeomakeWarningSign'}
-  let g:neomake_rakefds_maker = {
-        \ 'exe': 'rakefds',
-        \ 'args': ['--color=never'],
-        \ 'output_stream': 'both',
-        \ 'append_file': 0,
-        \ 'buffer_output': 0,
-        \ }
         " To always show errors, make the error format '%m'
         " \ 'errorformat': '%m',
 
   let g:neomake_open_list=1 " Show the quickfix window after running NeomakeSh or NeomakeSh!
-  let g:neomake_enabled_makers = ['rakefds']
-  let g:neomake_cpp_enabled_makers = ['rakefds']
 
 
   function! NeomakeShowJobStatusOnFinished() abort

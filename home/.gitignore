@@ -4,6 +4,7 @@ X86_64_DEBUG/
 local_projects.dat
 .rakefds
 .prebuild
+venv/
 
 # Swap
 [._]*.s[a-v][a-z]
