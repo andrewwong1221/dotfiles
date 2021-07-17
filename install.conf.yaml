@@ -1,0 +1,20 @@
+- defaults:
+    link:
+      relink: true
+
+- clean: ['~'] # Remove dead symbolic links in ~
+
+- link:
+    ~/.tmux.conf: home/.tmux.conf
+
+    ~/.config/nvim/init.vim:
+      create: true
+      path: home/.config/nvim/init.vim
+
+    ~/.gitconfig: home/.gitconfig
+
+- create:
+    - ~/.local
+
+- shell:
+    - [git submodule update --init --recursive, Installing submodules]
