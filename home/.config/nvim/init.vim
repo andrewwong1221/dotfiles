@@ -568,6 +568,13 @@ endif
   " coc.nvim {{{
   " From coc.nvim readme and coc-snippets readme
 
+  let g:coc_global_extensions = [ 'coc-json', 'coc-git', 'coc-clangd', 'coc-html', 'coc-explorer', 'coc-css' ]
+
+  " coc-explorer
+  nnoremap <space>e :CocCommand explorer
+    \ --toggle
+    \ --sources=buffer+,file+<CR>
+
   let g:coc_snippet_next = '<tab>'
 
   " Use tab for trigger completion with characters ahead and navigate.
@@ -676,7 +683,9 @@ endif
   " Show all diagnostics.
   nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
   " Manage extensions.
-  nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+  " nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+  " Rebound to space-x
+  nnoremap <silent> <space>x  :<C-u>CocList extensions<cr>
   " Show commands.
   nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
   " Find symbol of current document.
@@ -689,6 +698,8 @@ endif
   nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
   " Resume latest coc list.
   nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+
 
   " }}}
 
