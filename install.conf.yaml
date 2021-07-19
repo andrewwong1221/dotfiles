@@ -11,9 +11,9 @@
       create: true
       path: home/.config/nvim/init.vim
       
-    ~/.config/nvim/after:
+    ~/.config/nvim/after/plugin/coc.vim:
       create: true
-      path: home/.config/nvim/after
+      path: home/.config/nvim/after/plugin/coc.vim
 
     ~/.gitconfig: home/.gitconfig
 
