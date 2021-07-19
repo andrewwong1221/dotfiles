@@ -210,6 +210,12 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'jackguo380/vim-lsp-cxx-highlight'
 " :CocInstall coc-snippets
 
+" Markdown Tables
+Plug 'dhruvasagar/vim-table-mode'
+
+" Terraform
+Plug 'hashivim/vim-terraform'
+
 " All plugins must be added before the following line
 call plug#end()         " required
 
