@@ -1,28 +1,32 @@
 [user]
-	name = Andrew D. Wong
-	email = andrewwong1221@gmail.com
+  name = Andrew D. Wong
+  email = andrewwong1221@gmail.com
+
 [color]
   branch = auto
-    diff = auto
-      status = auto
+  diff = auto
+  status = auto
+
 [color "branch"]
-    current = yellow reverse
-      local = yellow 
-        remote = green
+  current = yellow reverse
+  local = yellow
+  remote = green
 [color "diff"]
-    meta = yellow bold
-      frag = magenta bold
-        old = red bold
-          new = green bold
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+
 [color "status"]
-    added = yellow
-      changed = green
-        untracked = cyan
+  added = yellow
+  changed = green
+  untracked = cyan
 
 [diff]
-    tool = default-difftool
+  tool = nvimdiff
+
+[difftool "nvimdiff"]
+  cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 
 [difftool]
-    prompt = false
-[difftool "default-difftool"]
-    cmd = $HOME/.default-difftool.sh $LOCAL $REMOTE
+  prompt = false
