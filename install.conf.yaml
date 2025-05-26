@@ -7,14 +7,11 @@
 - link:
     ~/.tmux.conf: home/.tmux.conf
 
-    ~/.config/nvim/init.vim:
+    ~/.config/nvim/:
       create: true
-      path: home/.config/nvim/init.vim
+      glob: true
+      path: home/.config/nvim/**
       
-    ~/.config/nvim/after/plugin/coc.vim:
-      create: true
-      path: home/.config/nvim/after/plugin/coc.vim
-
     ~/.gitconfig: home/.gitconfig
 
 - create:
